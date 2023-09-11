@@ -1,12 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Appbar } from "react-native-paper";
 
-export default function Dashboard() {
+export default function FoodDisplay() {
     return (
         <View style={styles.container}>
-            <Appbar.Header>
-                <Appbar.Content title="Dashboard" />
-            </Appbar.Header>
+            <Text>Food Display</Text>
         </View>
     );
 }

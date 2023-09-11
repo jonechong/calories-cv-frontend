@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import { PaperProvider } from "react-native-paper";
 
 export default function App() {
