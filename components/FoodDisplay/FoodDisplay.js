@@ -1,13 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
 import DateSelector from "../DateSelector";
-import FoodList from "./FoodList/FoodList";
+import FoodList from "./FoodView/FoodList/FoodList";
+import FoodView from "./FoodView/FoodView";
 
 export default function FoodDisplay() {
     return (
         <View style={styles.container}>
             <DateSelector />
-            <FoodList />
+            <FoodView />
         </View>
     );
 }
