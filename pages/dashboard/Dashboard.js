@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Appbar } from "react-native-paper";
+import DashboardHeader from "../../components/Dashboard/DashboardHeader";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
 import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 
 export default function Dashboard() {
     return (
         <View style={styles.container}>
-            <Appbar.Header>
+            <DashboardHeader>
                 <Appbar.Content title="Dashboard" />
-            </Appbar.Header>
+            </DashboardHeader>
             <FoodDisplay />
             <DashboardButtons />
         </View>
