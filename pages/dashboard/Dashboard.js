@@ -7,9 +7,7 @@ import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 export default function Dashboard() {
     return (
         <View style={styles.container}>
-            <DashboardHeader>
-                <Appbar.Content title="Dashboard" />
-            </DashboardHeader>
+            <DashboardHeader />
             <FoodDisplay />
             <DashboardButtons />
         </View>
