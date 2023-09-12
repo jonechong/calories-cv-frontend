@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Appbar } from "react-native-paper";
-import FoodDisplay from "./FoodDisplay";
-import DashboardButtons from "./DashboardButtons";
+import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
+import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 
 export default function Dashboard() {
     return (
