@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
+import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 import DashboardHeader from "../../components/Dashboard/DashboardHeader";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
-import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 
 export default function Dashboard() {
     return (
