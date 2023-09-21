@@ -14,7 +14,8 @@ export default function FoodList() {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
+        flexWrap: "wrap",
         flexDirection: "row",
         backgroundColor: "#fff",
     },
