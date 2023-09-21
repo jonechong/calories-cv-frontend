@@ -1,13 +1,6 @@
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-    Button,
-    Caption,
-    Headline,
-    IconButton,
-    Subheading,
-    Text,
-    Title,
-} from "react-native-paper";
+import { IconButton, Subheading } from "react-native-paper";
 
 export default function DateSelector() {
     const currentDate = new Date();
@@ -15,22 +8,29 @@ export default function DateSelector() {
     const currentDay = currentDate.getDate();
     const currentYear = currentDate.getFullYear();
 
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const decreaseDate = () => {
+        const dateCopy = new Date(selectedDate);
+        dateCopy.setDate(dateCopy.getDate() - 1);
+        setSelectedDate(dateCopy);
+    };
+
+    const increaseDate = () => {
+        const dateCopy = new Date(selectedDate);
+        dateCopy.setDate(dateCopy.getDate() + 1);
+        setSelectedDate(dateCopy);
+    };
+
     return (
         <View style={styles.container}>
-            <IconButton
-                icon="chevron-left"
-                onPress={() => {
-                    /* logic to decrease the date */
-                }}
-            ></IconButton>
+            <IconButton icon="chevron-left" onPress={increaseDate}></IconButton>
             <Subheading style={{ color: "black" }}>
                 {currentDay}/{currentMonth}/{currentYear}
             </Subheading>
             <IconButton
                 icon="chevron-right"
-                onPress={() => {
-                    /* logic to increase the date */
-                }}
+                onPress={decreaseDate}
             ></IconButton>
         </View>
     );
