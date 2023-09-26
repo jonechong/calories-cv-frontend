@@ -1,12 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
+import { IconButton } from "react-native-paper";
 
 export default function DashboardButtons() {
     return (
         <View style={styles.container}>
-            <Button>Detect Calories</Button>
-            <Button>Add Food</Button>
-            <Button>History</Button>
+            <TouchableOpacity
+                onPress={() => console.log("Add Food Pressed")}
+                activeOpacity={0.75}
+            >
+                <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("../../assets/buttons/addFoodButton.svg")}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log("Camera Pressed")}>
+                <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("../../assets/buttons/cameraButton.svg")}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log("History Pressed")}>
+                <Image
+                    style={{ width: 50, height: 50 }}
+                    source={require("../../assets/buttons/historyButton.svg")}
+                />
+            </TouchableOpacity>
         </View>
     );
 }
