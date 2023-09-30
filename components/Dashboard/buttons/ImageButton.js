@@ -1,35 +1,33 @@
-import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    Image,
-    Dimensions,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { Text } from "react-native-paper";
-const screenWidth = Dimensions.get("window").width;
 
-export default function HistoryButton() {
-    const viewHistory = () => {
-        console.log("viewHistory Pressed");
-    };
+export default function ImageButton({
+    buttonFunction,
+    buttonImagePath,
+    buttonText,
+}) {
+    // console.log(buttonImagePath);
 
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                onPress={viewHistory}
+                onPress={buttonFunction}
                 style={{
-                    width: screenWidth / 4,
+                    width: "100%",
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
                 }}
             >
-                <Text variant="labelMedium" style={{ textAlign: "center" }}>
-                    History
+                <Text
+                    variant="labelMedium"
+                    style={{ width: "100%", textAlign: "center" }}
+                >
+                    {buttonText}
                 </Text>
                 <Image
                     style={{ width: "100%", aspectRatio: 1 }}
-                    source={require("../../../assets/buttons/historyButton.svg")}
+                    source={buttonImagePath}
                 />
             </TouchableOpacity>
         </View>
@@ -38,11 +36,10 @@ export default function HistoryButton() {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        width: "20%",
         flexDirection: "column",
         backgroundColor: "#fff",
         alignContent: "center",
-        // justifyContent: "center",
         alignItems: "center",
     },
 });
