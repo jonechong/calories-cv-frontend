@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function ImageButton({
@@ -6,8 +6,6 @@ export default function ImageButton({
     buttonImagePath,
     buttonText,
 }) {
-    // console.log(buttonImagePath);
-
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -15,13 +13,15 @@ export default function ImageButton({
                 style={{
                     width: "100%",
                     flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
                 }}
             >
                 <Text
                     variant="labelMedium"
-                    style={{ width: "100%", textAlign: "center" }}
+                    style={{
+                        width: "100%",
+                        textAlign: "center",
+                        textAlignVertical: "center",
+                    }}
                 >
                     {buttonText}
                 </Text>
@@ -37,9 +37,8 @@ export default function ImageButton({
 const styles = StyleSheet.create({
     container: {
         width: "20%",
+        justifyContent: "flex-end",
         flexDirection: "column",
         backgroundColor: "#fff",
-        alignContent: "center",
-        alignItems: "center",
     },
 });

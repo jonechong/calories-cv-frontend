@@ -1,8 +1,5 @@
-import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
-import { Text } from "react-native-paper";
-import DetectCaloriesButton from "./buttons/DetectCaloriesButton";
-import AddFoodButton from "./buttons/AddFoodButton";
-import HistoryButton from "./buttons/HistoryButton";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import ImageButton from "./buttons/ImageButton";
 
 export default function DashboardButtons() {
@@ -47,7 +44,6 @@ export default function DashboardButtons() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "space-evenly",
         backgroundColor: "#fff",
