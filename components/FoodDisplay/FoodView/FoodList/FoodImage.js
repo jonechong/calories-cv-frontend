@@ -1,21 +1,20 @@
 import { StyleSheet, View } from "react-native";
-import { Button, Text, List } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 
 export default function FoodImage() {
+    const imagePressed = () => {
+        console.log("Image pressed!");
+    };
+
     return (
         <View style={styles.container}>
-            <List.Item
-                title="First Image"
-                description="Item description"
-                left={(props) => <List.Icon {...props} icon="folder" />}
-            />
+            <IconButton icon="food" onPress={imagePressed}></IconButton>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         flexDirection: "column",
         backgroundColor: "#fff",
     },
