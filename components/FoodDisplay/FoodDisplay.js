@@ -13,8 +13,8 @@ export default function FoodDisplay() {
 
     return (
         <View style={styles.container}>
-            <DateSelector onDateChange={handleDateChange} />
-            <FoodView date={selectedDate} />
+            <DateSelector date={selectedDate} onDateChange={handleDateChange} />
+            <FoodView />
         </View>
     );
 }
