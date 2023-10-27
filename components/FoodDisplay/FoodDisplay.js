@@ -1,7 +1,6 @@
-import { StyleSheet, View } from "react-native";
 import { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import DateSelector from "../DateSelector";
-import FoodList from "./FoodView/FoodList/FoodList";
 import FoodView from "./FoodView/FoodView";
 
 export default function FoodDisplay() {
@@ -13,7 +12,7 @@ export default function FoodDisplay() {
 
     return (
         <View style={styles.container}>
-            <DateSelector onDateChange={handleDateChange} />
+            <DateSelector date={selectedDate} onDateChange={handleDateChange} />
             <FoodView date={selectedDate} />
         </View>
     );
@@ -21,11 +20,9 @@ export default function FoodDisplay() {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         flexDirection: "column",
         backgroundColor: "#fff",
         alignContent: "center",
-        // justifyContent: "center",
         alignItems: "center",
     },
 });
