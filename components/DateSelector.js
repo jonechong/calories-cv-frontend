@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Subheading } from "react-native-paper";
+import { IconButton, Subheading, Text, Surface } from "react-native-paper";
 
 export default function DateSelector({ date, onDateChange }) {
     const [currentDate, setCurrentDate] = useState(date);
@@ -23,26 +23,21 @@ export default function DateSelector({ date, onDateChange }) {
     };
 
     return (
-        <View style={styles.container}>
-            <IconButton icon="chevron-left" onPress={decreaseDate}></IconButton>
-            <Subheading style={{ color: "black" }}>
+        <Surface style={styles.container}>
+            <IconButton icon="chevron-left" onPress={decreaseDate} />
+            <Subheading>
                 {currentDay}/{currentMonth}/{currentYear}
             </Subheading>
-            <IconButton
-                icon="chevron-right"
-                onPress={increaseDate}
-            ></IconButton>
-        </View>
+            <IconButton icon="chevron-right" onPress={increaseDate} />
+        </Surface>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width: "100%",
         flexDirection: "row",
-        backgroundColor: "#fff",
         alignItems: "center", // vertically center items
         justifyContent: "center", // horizontally center items
-        paddingHorizontal: 10, // for a little padding on the sides
     },
 });
