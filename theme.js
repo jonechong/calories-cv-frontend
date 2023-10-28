@@ -6,16 +6,26 @@ const theme = {
     colors: {
         ...DefaultTheme.colors,
         primary: "green",
-        onPrimary: "white",
+        onPrimary: "pink",
         secondary: "blue",
         onSecondary: "cyan",
-        tertiary: "red",
+        tertiary: "black",
         onTertiary: "orange",
         background: "black",
         onBackground: "grey",
-        surface: "#808080",
-        onSurface: "purple",
+        surface: "gray",
+        onSurface: "black",
+        elevation: {
+            level0: "transparent",
+            level1: "rgb(247, 243, 249)",
+            level2: "rgb(243, 237, 246)",
+            level3: "rgb(238, 232, 244)",
+            level4: "rgb(236, 230, 243)",
+            level5: "rgb(233, 227, 241)",
+        },
     },
+    dark: "true",
+    mode: "exact",
 };
 
 export default theme;
