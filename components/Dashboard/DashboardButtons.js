@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ImageButton from "./buttons/ImageButton";
+import { Surface } from "react-native-paper";
 
 export default function DashboardButtons() {
     const buttonImagesPath = {
@@ -22,7 +23,7 @@ export default function DashboardButtons() {
     };
 
     return (
-        <View style={styles.container}>
+        <Surface style={styles.container}>
             <ImageButton
                 buttonText={"Detect Calories"}
                 buttonImagePath={buttonImagesPath.detectCaloriesButton}
@@ -38,7 +39,7 @@ export default function DashboardButtons() {
                 buttonImagePath={buttonImagesPath.historyButton}
                 buttonFunction={buttonFunctions.historyButton}
             />
-        </View>
+        </Surface>
     );
 }
 
