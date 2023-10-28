@@ -37,7 +37,7 @@ const DarkTheme = {
             level5: "rgb(233, 227, 241)",
         },
     },
-    dark: "true",
+    dark: "false",
 };
 
 export default DarkTheme;
