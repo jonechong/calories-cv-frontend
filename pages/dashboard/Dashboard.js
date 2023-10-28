@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 import DashboardHeader from "../../components/Dashboard/DashboardHeader";
@@ -12,9 +13,18 @@ export default function Dashboard() {
     const breakpoint = 768;
     const marginSize = width > breakpoint ? width * 0.2 : 0; //0.2 corresponds to 20%
 
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (newDate) => {
+        setSelectedDate(newDate);
+    };
+
     return (
         <Surface>
-            <DashboardHeader />
+            <DashboardHeader
+                date={selectedDate}
+                onDateChange={handleDateChange}
+            />
             <Surface style={{ marginHorizontal: marginSize }}>
                 <FoodDisplay />
                 <DashboardButtons />

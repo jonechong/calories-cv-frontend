@@ -23,19 +23,18 @@ export default function DateSelector({ date, onDateChange }) {
     };
 
     return (
-        <Surface style={styles.container}>
+        <View style={styles.container}>
             <IconButton icon="chevron-left" onPress={decreaseDate} />
             <Subheading>
                 {currentDay}/{currentMonth}/{currentYear}
             </Subheading>
             <IconButton icon="chevron-right" onPress={increaseDate} />
-        </Surface>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
         flexDirection: "row",
         alignItems: "center", // vertically center items
         justifyContent: "center", // horizontally center items

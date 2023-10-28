@@ -3,17 +3,11 @@ import { StyleSheet, View } from "react-native";
 import DateSelector from "../DateSelector";
 import FoodView from "./FoodView/FoodView";
 
-export default function FoodDisplay() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-
-    const handleDateChange = (newDate) => {
-        setSelectedDate(newDate);
-    };
-
+export default function FoodDisplay({ date }) {
     return (
         <View style={styles.container}>
-            <DateSelector date={selectedDate} onDateChange={handleDateChange} />
-            <FoodView date={selectedDate} />
+            {/* <DateSelector date={selectedDate} onDateChange={onDateChange} /> */}
+            <FoodView date={date} />
         </View>
     );
 }
@@ -21,7 +15,7 @@ export default function FoodDisplay() {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
-        backgroundColor: "#fff",
+        backgroundColor: "#green",
         alignContent: "center",
         alignItems: "center",
     },
