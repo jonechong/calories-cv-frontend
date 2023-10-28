@@ -1,19 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Appbar } from "react-native-paper";
+import { Appbar, useTheme } from "react-native-paper";
 
 export default function DashboardHeader() {
+    const theme = useTheme();
     return (
-        <View style={styles.container}>
+        <View>
             <Appbar.Header>
                 <Appbar.Content title="Dashboard" />
             </Appbar.Header>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-        backgroundColor: "#fff",
-    },
-});
