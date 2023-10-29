@@ -1,9 +1,24 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ImageButton from "./buttons/ImageButton";
-import { Surface } from "react-native-paper";
+import { Surface, Button, useTheme } from "react-native-paper";
 
 export default function DashboardButtons() {
+    const theme = useTheme();
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            backgroundColor: theme.colors.background,
+            alignItems: "flex-end",
+            paddingBottom: "2.5%",
+        },
+        button: {
+            marginVertical: "0.3%",
+            // width: "50%",
+        },
+    });
+
     const buttonImagesPath = {
         addFoodButton: require("../../assets/buttons/addFoodButton.svg"),
         detectCaloriesButton: require("../../assets/buttons/cameraButton.svg"),
@@ -23,30 +38,31 @@ export default function DashboardButtons() {
     };
 
     return (
-        <Surface style={styles.container}>
-            <ImageButton
-                buttonText={"Detect Calories"}
-                buttonImagePath={buttonImagesPath.detectCaloriesButton}
-                buttonFunction={buttonFunctions.detectCaloriesButton}
-            />
-            <ImageButton
-                buttonText={"Add Food"}
-                buttonImagePath={buttonImagesPath.addFoodButton}
-                buttonFunction={buttonFunctions.addFoodButton}
-            />
-            <ImageButton
-                buttonText={"History"}
-                buttonImagePath={buttonImagesPath.historyButton}
-                buttonFunction={buttonFunctions.historyButton}
-            />
-        </Surface>
+        <View style={styles.container}>
+            <Button
+                icon="history"
+                mode="contained"
+                style={styles.button}
+                onPress={buttonFunctions.historyButton}
+            >
+                History
+            </Button>
+            <Button
+                icon="food"
+                mode="contained"
+                style={styles.button}
+                onPress={buttonFunctions.addFoodButton}
+            >
+                Add Food
+            </Button>
+            <Button
+                icon="camera"
+                mode="contained"
+                style={styles.button}
+                onPress={buttonFunctions.detectCaloriesButton}
+            >
+                Detect Calories
+            </Button>
+        </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        backgroundColor: "#fff",
-    },
-});
