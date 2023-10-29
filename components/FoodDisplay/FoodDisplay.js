@@ -2,11 +2,11 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DateSelector from "../DateSelector";
 import FoodView from "./FoodView/FoodView";
+import { Surface, Card } from "react-native-paper";
 
 export default function FoodDisplay({ date }) {
     return (
         <View style={styles.container}>
-            {/* <DateSelector date={selectedDate} onDateChange={onDateChange} /> */}
             <FoodView date={date} />
         </View>
     );
