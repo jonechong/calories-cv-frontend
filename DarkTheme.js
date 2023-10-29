@@ -23,19 +23,19 @@ const DarkTheme = {
         onErrorContainer: "#F9DEDC",
         background: "#1C1B1F",
         onBackground: "#E6E1E5",
-        surface: "#1C1B1F",
+        surface: "#28272D",
         onSurface: "#E6E1E5",
         outline: "#938F99",
         surfaceVariant: "#49454F",
         onSurfaceVariant: "#CAC4D0",
-        elevation: {
-            level0: "transparent",
-            level1: "rgb(247, 243, 249)",
-            level2: "rgb(243, 237, 246)",
-            level3: "rgb(238, 232, 244)",
-            level4: "rgb(236, 230, 243)",
-            level5: "rgb(233, 227, 241)",
-        },
+        // elevation: {
+        //     level0: "transparent",
+        //     level1: "rgba(28, 27, 31, 0.05)", // slight shadow
+        //     level2: "rgba(28, 27, 31, 0.1)", // soft shadow
+        //     level3: "rgba(28, 27, 31, 0.15)", // moderate shadow
+        //     level4: "rgba(28, 27, 31, 0.2)", // noticeable shadow
+        //     level5: "rgba(28, 27, 31, 0.3)", // strong shadow
+        // },
     },
     dark: "false",
 };
