@@ -1,10 +1,30 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import ImageButton from "./buttons/ImageButton";
-import { Surface, Button, useTheme } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Animated } from "react-native";
+import { Surface, Button, useTheme, IconButton } from "react-native-paper";
 
 export default function DashboardButtons() {
     const theme = useTheme();
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [fadeAnim] = useState(new Animated.Value(0)); // Initial value for opacity: 0
+
+    useEffect(() => {
+        if (isExpanded) {
+            // Fade in
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            // Fade out
+            Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [isExpanded, fadeAnim]);
+
     const styles = StyleSheet.create({
         container: {
             flexDirection: "column",
@@ -15,7 +35,7 @@ export default function DashboardButtons() {
         },
         button: {
             marginVertical: "0.3%",
-            // width: "50%",
+            width: "100%",
         },
     });
 
@@ -39,30 +59,46 @@ export default function DashboardButtons() {
 
     return (
         <View style={styles.container}>
-            <Button
-                icon="history"
-                mode="contained"
-                style={styles.button}
-                onPress={buttonFunctions.historyButton}
+            <Animated.View
+                style={{ opacity: fadeAnim, alignItems: "flex-end" }}
             >
-                History
-            </Button>
-            <Button
-                icon="food"
+                {isExpanded && (
+                    <>
+                        <Button
+                            icon="history"
+                            mode="contained"
+                            style={styles.button}
+                            onPress={buttonFunctions.historyButton}
+                        >
+                            History
+                        </Button>
+                        <Button
+                            icon="food"
+                            mode="contained"
+                            style={styles.button}
+                            onPress={buttonFunctions.addFoodButton}
+                        >
+                            Add Food
+                        </Button>
+                        <Button
+                            icon="camera"
+                            mode="contained"
+                            style={styles.button}
+                            onPress={buttonFunctions.detectCaloriesButton}
+                        >
+                            Detect Calories
+                        </Button>
+                    </>
+                )}
+            </Animated.View>
+
+            <IconButton
+                icon="plus"
                 mode="contained"
-                style={styles.button}
-                onPress={buttonFunctions.addFoodButton}
-            >
-                Add Food
-            </Button>
-            <Button
-                icon="camera"
-                mode="contained"
-                style={styles.button}
-                onPress={buttonFunctions.detectCaloriesButton}
-            >
-                Detect Calories
-            </Button>
+                style={{}}
+                size={30}
+                onPress={() => setIsExpanded(!isExpanded)}
+            />
         </View>
     );
 }
