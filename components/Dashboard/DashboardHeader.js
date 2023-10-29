@@ -4,7 +4,7 @@ import { Appbar, useTheme } from "react-native-paper";
 import DateSelector from "../DateSelector";
 
 export default function DashboardHeader({ date, onDateChange }) {
-    const logoImage = require("../../assets/placeholder_logo.png");
+    const logoImage = require("../../assets/logo_greyscale.png");
     const theme = useTheme();
 
     const styles = StyleSheet.create({
