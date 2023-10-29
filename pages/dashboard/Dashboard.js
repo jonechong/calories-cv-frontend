@@ -9,6 +9,18 @@ import FoodView from "../../components/FoodDisplay/FoodView/FoodView";
 export default function Dashboard() {
     const theme = useTheme();
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1, // Ensure the container takes the full height
+            position: "relative", // Set position to relative
+        },
+        contentContainer: {
+            flex: 1, // Make the content container take the remaining height
+            marginHorizontal: marginSize,
+            backgroundColor: theme.colors.background,
+        },
+    });
+
     //Add margin if screen size is large
     const { width } = useWindowDimensions();
     const breakpoint = 768;
@@ -21,20 +33,15 @@ export default function Dashboard() {
     };
 
     return (
-        <Surface>
+        <View style={styles.container}>
             <DashboardHeader
                 date={selectedDate}
                 onDateChange={handleDateChange}
             />
-            <Surface
-                style={{
-                    marginHorizontal: marginSize,
-                    backgroundColor: theme.colors.background,
-                }}
-            >
+            <View style={styles.contentContainer}>
                 <FoodView date={selectedDate} />
-                <DashboardButtons />
-            </Surface>
-        </Surface>
+            </View>
+            <DashboardButtons />
+        </View>
     );
 }
