@@ -4,6 +4,7 @@ import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 import DashboardHeader from "../../components/Dashboard/DashboardHeader";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
 import { useTheme, Surface } from "react-native-paper";
+import FoodView from "../../components/FoodDisplay/FoodView/FoodView";
 
 export default function Dashboard() {
     const theme = useTheme();
@@ -25,8 +26,13 @@ export default function Dashboard() {
                 date={selectedDate}
                 onDateChange={handleDateChange}
             />
-            <Surface style={{ marginHorizontal: marginSize }}>
-                <FoodDisplay />
+            <Surface
+                style={{
+                    marginHorizontal: marginSize,
+                    backgroundColor: theme.colors.background,
+                }}
+            >
+                <FoodView date={selectedDate} />
                 <DashboardButtons />
             </Surface>
         </Surface>
