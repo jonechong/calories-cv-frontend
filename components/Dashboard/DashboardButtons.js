@@ -35,6 +35,7 @@ export default function DashboardButtons() {
             alignItems: "flex-end",
         },
         button: {
+            marginVertical: "0.3%",
             width: "100%",
         },
     });
