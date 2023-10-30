@@ -33,10 +33,8 @@ export default function DashboardButtons() {
             flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "flex-end",
-            paddingBottom: "2.5%",
         },
         button: {
-            marginVertical: "0.3%",
             width: "100%",
         },
     });
