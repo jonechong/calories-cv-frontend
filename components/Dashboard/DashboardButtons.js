@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
 import { Surface, Button, useTheme, IconButton } from "react-native-paper";
+import DetectCaloriesButton from "./buttons/DetectCaloriesButton";
 
 export default function DashboardButtons() {
     const theme = useTheme();
@@ -39,12 +40,6 @@ export default function DashboardButtons() {
         },
     });
 
-    const buttonImagesPath = {
-        addFoodButton: require("../../assets/buttons/addFoodButton.svg"),
-        detectCaloriesButton: require("../../assets/buttons/cameraButton.svg"),
-        historyButton: require("../../assets/buttons/historyButton.svg"),
-    };
-
     const buttonFunctions = {
         addFoodButton: () => {
             console.log("Add Food pressed");
@@ -80,20 +75,13 @@ export default function DashboardButtons() {
                         >
                             Add Food
                         </Button>
-                        <Button
-                            icon="camera"
-                            mode="contained"
-                            style={styles.button}
-                            onPress={buttonFunctions.detectCaloriesButton}
-                        >
-                            Detect Calories
-                        </Button>
+                        <DetectCaloriesButton styles={styles}/>
                     </>
                 )}
             </Animated.View>
 
             <IconButton
-                icon="plus"
+                icon="menu"
                 mode="contained"
                 style={{}}
                 size={30}
