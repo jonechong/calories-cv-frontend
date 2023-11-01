@@ -25,10 +25,7 @@ const DetectCaloriesButton = ({ styles, theme }) => {
             return;
         }
 
-        const options =
-            Platform.OS === "android"
-                ? ["Take a Photo", "Choose from Gallery", "Cancel"]
-                : ["Cancel", "Take a Photo", "Choose from Gallery "];
+        const options = ["Take a Photo", "Choose from Gallery", "Cancel"];
         const cancelButtonIndex = options.indexOf("Cancel");
         const destructiveButtonIndex = cancelButtonIndex;
         showActionSheetWithOptions(
