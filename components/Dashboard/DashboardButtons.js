@@ -28,14 +28,15 @@ export default function DashboardButtons() {
 
     const styles = StyleSheet.create({
         container: {
+            position: "absolute", // Position the buttons absolutely
+            bottom: 0, // Position the buttons at the bottom of the screen
+            right: 0, // Align the buttons to the right
             flexDirection: "column",
             justifyContent: "space-evenly",
-            backgroundColor: theme.colors.background,
             alignItems: "flex-end",
-            paddingBottom: "2.5%",
         },
         button: {
-            marginVertical: "0.3%",
+            marginVertical: "0.5%",
             width: "100%",
         },
     });
@@ -62,6 +63,8 @@ export default function DashboardButtons() {
                         <Button
                             icon="history"
                             mode="contained"
+                            textColor={theme.colors.onTertiary}
+                            buttonColor={theme.colors.tertiary}
                             style={styles.button}
                             onPress={buttonFunctions.historyButton}
                         >
@@ -70,12 +73,14 @@ export default function DashboardButtons() {
                         <Button
                             icon="food"
                             mode="contained"
+                            textColor={theme.colors.onTertiary}
+                            buttonColor={theme.colors.tertiary}
                             style={styles.button}
                             onPress={buttonFunctions.addFoodButton}
                         >
                             Add Food
                         </Button>
-                        <DetectCaloriesButton styles={styles}/>
+                        <DetectCaloriesButton styles={styles} theme={theme} />
                     </>
                 )}
             </Animated.View>
@@ -85,6 +90,8 @@ export default function DashboardButtons() {
                 mode="contained"
                 style={{}}
                 size={30}
+                containerColor={theme.colors.tertiary}
+                iconColor={theme.colors.onTertiary}
                 onPress={() => setIsExpanded(!isExpanded)}
             />
         </View>

@@ -10,7 +10,8 @@ import {
 
 const db = SQLite.openDatabase("ImageDatabase.db");
 
-const DetectCaloriesButton = ({ styles }) => {
+const DetectCaloriesButton = ({ styles, theme }) => {
+    
     const [imageUri, setImageUri] = useState(null);
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -86,7 +87,9 @@ const DetectCaloriesButton = ({ styles }) => {
         <Button
             icon="camera"
             mode="contained"
-            // style={styles.button}
+            style={styles.button}
+            textColor={theme.colors.onTertiary}
+            buttonColor={theme.colors.tertiary}
             onPress={showImagePicker}
         >
             Detect Calories
