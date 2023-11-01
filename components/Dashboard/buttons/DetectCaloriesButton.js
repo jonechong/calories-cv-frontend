@@ -11,7 +11,6 @@ import {
 const db = SQLite.openDatabase("ImageDatabase.db");
 
 const DetectCaloriesButton = ({ styles, theme }) => {
-    
     const [imageUri, setImageUri] = useState(null);
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -30,12 +29,13 @@ const DetectCaloriesButton = ({ styles, theme }) => {
             Platform.OS === "android"
                 ? ["Take a Photo", "Choose from Gallery", "Cancel"]
                 : ["Cancel", "Take a Photo", "Choose from Gallery "];
-        const cancelButtonIndex = 0;
-
+        const cancelButtonIndex = options.indexOf("Cancel");
+        const destructiveButtonIndex = cancelButtonIndex;
         showActionSheetWithOptions(
             {
                 options,
                 cancelButtonIndex,
+                destructiveButtonIndex,
             },
             (buttonIndex) => {
                 if (buttonIndex === options.indexOf("Choose from Gallery")) {
