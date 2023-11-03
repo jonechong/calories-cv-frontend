@@ -70,10 +70,13 @@ export default function ImageView({ onImageSelected }) {
                 ) : (
                     <View style={styles.touchableArea}>
                         <IconButton
-                            icon="camera"
+                            icon="image-plus"
                             iconColor={theme.colors.primary}
-                            size={80}
-                            style={{ backgroundColor: "transparent" }}
+                            size={160}
+                            style={{
+                                backgroundColor: "transparent",
+                                borderRadius: 0,
+                            }}
                         />
                     </View>
                 )}
