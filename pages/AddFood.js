@@ -73,7 +73,11 @@ export default function AddFood({ FoodData }) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const handleInputChange = (name, value) => {
-        setInputValues({ ...inputValues, [name]: value });
+        // Check if the input is numeric or empty
+        const isNumericOrEmpty = value === "" || /^\d*\.?\d*$/.test(value);
+        if (isNumericOrEmpty) {
+            setFoodData({ ...foodData, [name]: value });
+        }
     };
 
     const formatDate = (date) => {
@@ -122,7 +126,7 @@ export default function AddFood({ FoodData }) {
                     <TextInput
                         label="Date (DD/MM/YYYY)"
                         value={formatDate(date)}
-                        // onFocus={showDatePicker}
+                        editable={false}
                         right={
                             <TextInput.Icon
                                 icon="calendar" // This is a placeholder, replace with your icon name
