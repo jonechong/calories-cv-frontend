@@ -3,10 +3,10 @@ import { StyleSheet, View, useWindowDimensions } from "react-native";
 import DashboardButtons from "../../components/Dashboard/DashboardButtons";
 import DashboardHeader from "../../components/Dashboard/DashboardHeader";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
-import { useTheme, Surface } from "react-native-paper";
+import { useTheme, Surface, Button } from "react-native-paper";
 import FoodView from "../../components/FoodDisplay/FoodView/FoodView";
 
-export default function Dashboard() {
+export default function Dashboard({ navigation }) {
     const theme = useTheme();
 
     const styles = StyleSheet.create({
