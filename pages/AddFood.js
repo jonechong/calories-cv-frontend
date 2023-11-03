@@ -12,7 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import ImageView from "../components/AddFood/ImageView";
 import AddFoodButtons from "../components/AddFood/AddFoodButtons";
 
-export default function AddFood({ FoodData }) {
+export default function AddFood({ navigation, FoodData }) {
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -50,14 +50,13 @@ export default function AddFood({ FoodData }) {
             width: "20%", // Set width equal to logoContainer width
         },
         title: {
-            fontSize: 20, // Adjust the size as necessary
-            fontWeight: "bold", // If you want the text to be bold
+            fontSize: 20,
         },
     });
 
     const [foodName, setFoodName] = useState("");
     const [date, setDate] = useState(new Date());
-    const [foodData, setFoodData] = useState({
+    const [macroData, setMacroData] = useState({
         calories: "",
         protein: "",
         carbs: "",
@@ -76,7 +75,7 @@ export default function AddFood({ FoodData }) {
         // Check if the input is numeric or empty
         const isNumericOrEmpty = value === "" || /^\d*\.?\d*$/.test(value);
         if (isNumericOrEmpty) {
-            setFoodData({ ...foodData, [name]: value });
+            setMacroData({ ...macroData, [name]: value });
         }
     };
 
@@ -94,7 +93,16 @@ export default function AddFood({ FoodData }) {
         setDate(currentDate);
     };
 
-    // spacer is used to push the DateSelector to the left
+    const submit = () => {
+        console.log("Submit Pressed");
+        navigation.navigate("Dashboard");
+    };
+
+    const cancel = () => {
+        console.log("Cancel Pressed");
+        navigation.navigate("Dashboard");
+    };
+
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -113,6 +121,7 @@ export default function AddFood({ FoodData }) {
                                 />
                             </View>
                             <Text style={styles.title}>Add Food</Text>
+                            {/*  spacer is used to push the DateSelector to the left */}
                             <View style={styles.spacer} />
                         </View>
                     </Appbar.Header>
@@ -148,7 +157,7 @@ export default function AddFood({ FoodData }) {
                         <TextInput
                             key={index}
                             label={input.label}
-                            value={foodData[input.name]}
+                            value={macroData[input.name]}
                             onChangeText={(text) =>
                                 handleInputChange(input.name, text)
                             }
@@ -158,7 +167,7 @@ export default function AddFood({ FoodData }) {
                         />
                     ))}
                     <ImageView />
-                    <AddFoodButtons />
+                    <AddFoodButtons submit={submit} cancel={cancel} />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
