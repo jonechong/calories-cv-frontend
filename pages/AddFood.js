@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+} from "react-native";
 import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ImageView from "../components/AddFood/ImageView";
+import AddFoodButtons from "../components/AddFood/AddFoodButtons";
 
 export default function AddFood({ FoodData }) {
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -85,60 +92,71 @@ export default function AddFood({ FoodData }) {
 
     // spacer is used to push the DateSelector to the left
     return (
-        <View style={styles.container}>
-            <Appbar.Header>
-                <View style={styles.header}>
-                    <View style={styles.logoContainer}>
-                        <Image
-                            source={logoImage}
-                            style={styles.logo}
-                            resizeMode="contain"
-                        />
-                    </View>
-                    <Text style={styles.title}>Add Food</Text>
-                    <View style={styles.spacer} />
-                </View>
-            </Appbar.Header>
-            <TextInput
-                label="Name of the food"
-                value={foodName}
-                onChangeText={(text) => setFoodName(text)}
-                mode="outlined"
-                style={styles.input}
-            />
-            <TextInput
-                label="Date (DD/MM/YYYY)"
-                value={formatDate(date)}
-                // onFocus={showDatePicker}
-                right={
-                    <TextInput.Icon
-                        icon="calendar" // This is a placeholder, replace with your icon name
-                        onPress={showDatePicker}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjust the value as needed for header height
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={styles.container}>
+                    <Appbar.Header>
+                        <View style={styles.header}>
+                            <View style={styles.logoContainer}>
+                                <Image
+                                    source={logoImage}
+                                    style={styles.logo}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <Text style={styles.title}>Add Food</Text>
+                            <View style={styles.spacer} />
+                        </View>
+                    </Appbar.Header>
+                    <TextInput
+                        label="Food name"
+                        value={foodName}
+                        onChangeText={(text) => setFoodName(text)}
+                        mode="outlined"
+                        style={styles.input}
                     />
-                }
-                mode="outlined"
-                style={styles.input}
-            />
-            {isDatePickerVisible && (
-                <DateTimePicker
-                    value={date}
-                    mode="date"
-                    display="default"
-                    onChange={onDateChange}
-                />
-            )}
-            {foodInputs.map((input, index) => (
-                <TextInput
-                    key={index}
-                    label={input.label}
-                    value={foodData[input.name]}
-                    onChangeText={(text) => handleInputChange(input.name, text)}
-                    keyboardType={input.keyboardType}
-                    mode="outlined"
-                    style={styles.input}
-                />
-            ))}
-            <ImageView />
-        </View>
+                    <TextInput
+                        label="Date (DD/MM/YYYY)"
+                        value={formatDate(date)}
+                        // onFocus={showDatePicker}
+                        right={
+                            <TextInput.Icon
+                                icon="calendar" // This is a placeholder, replace with your icon name
+                                onPress={showDatePicker}
+                            />
+                        }
+                        mode="outlined"
+                        style={styles.input}
+                    />
+                    {isDatePickerVisible && (
+                        <DateTimePicker
+                            value={date}
+                            mode="date"
+                            display="default"
+                            onChange={onDateChange}
+                        />
+                    )}
+                    {foodInputs.map((input, index) => (
+                        <TextInput
+                            key={index}
+                            label={input.label}
+                            value={foodData[input.name]}
+                            onChangeText={(text) =>
+                                handleInputChange(input.name, text)
+                            }
+                            keyboardType={input.keyboardType}
+                            mode="outlined"
+                            style={styles.input}
+                        />
+                    ))}
+                    <ImageView />
+                    <AddFoodButtons />
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
