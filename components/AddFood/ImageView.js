@@ -1,10 +1,35 @@
 import React, { useState } from "react";
-import { View, Image, Button, StyleSheet } from "react-native";
+import {
+    View,
+    Image,
+    Button,
+    StyleSheet,
+    TouchableWithoutFeedback,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { IconButton } from "react-native-paper";
+import { IconButton, useTheme } from "react-native-paper";
 
-const ImageViewComponent = ({ onImageSelected }) => {
+export default function ImageView({ onImageSelected }) {
     const [imageUri, setImageUri] = useState(null);
+    const theme = useTheme();
+    const styles = StyleSheet.create({
+        imageContainer: {
+            marginTop: "6%",
+            width: "60%",
+            aspectRatio: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            borderWidth: 1,
+            borderRadius: 30,
+            borderStyle: "dashed",
+            borderColor: theme,
+        },
+        image: {
+            // width: 200, // Set the width as needed
+            // height: 200, // Set the height as needed
+            marginTop: 20,
+        },
+    });
 
     const handleSelectImage = async () => {
         const permissionResult =
@@ -31,27 +56,25 @@ const ImageViewComponent = ({ onImageSelected }) => {
 
     return (
         <View style={styles.imageContainer}>
-            <IconButton icon="image" onPress={handleSelectImage} />
-            {/* {imageUri && (
-                <Image source={{ uri: imageUri }} style={styles.image} />
-            )} */}
+            <TouchableWithoutFeedback
+                style={{ width: "100%", aspectRatio: 1 }}
+                onPress={handleSelectImage}
+            >
+                <View
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <IconButton
+                        icon="image"
+                        size={80}
+                        style={{ backgroundColor: "transparent" }}
+                    />
+                </View>
+            </TouchableWithoutFeedback>
         </View>
     );
-};
-
-const styles = StyleSheet.create({
-    imageContainer: {
-        flex: 1,
-        width: "100%",
-        aspectRatio: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    image: {
-        width: 200, // Set the width as needed
-        height: 200, // Set the height as needed
-        marginTop: 20,
-    },
-});
-
-export default ImageViewComponent;
+}
