@@ -43,8 +43,6 @@ export default function AddFood({ navigation, FoodData }) {
         input: {
             width: "95%",
             margin: "1%",
-            // fontSize: 15,
-            // height: 35,
         },
         spacer: {
             width: "20%", // Set width equal to logoContainer width
@@ -91,16 +89,6 @@ export default function AddFood({ navigation, FoodData }) {
         const currentDate = selectedDate || date;
         setDatePickerVisibility(false);
         setDate(currentDate);
-    };
-
-    const submit = () => {
-        console.log("Submit Pressed");
-        navigation.navigate("Dashboard");
-    };
-
-    const cancel = () => {
-        console.log("Cancel Pressed");
-        navigation.navigate("Dashboard");
     };
 
     return (
@@ -167,7 +155,7 @@ export default function AddFood({ navigation, FoodData }) {
                         />
                     ))}
                     <ImageView />
-                    <AddFoodButtons submit={submit} cancel={cancel} />
+                    <AddFoodButtons />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>

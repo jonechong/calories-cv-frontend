@@ -6,9 +6,10 @@ import {
     Dimensions,
 } from "react-native";
 import { Text, Button, useTheme } from "react-native-paper";
-const screenWidth = Dimensions.get("window").width;
+import { useNavigation } from "@react-navigation/native";
 
 export default function AddFoodButtons() {
+    const navigation = useNavigation();
     const theme = useTheme();
     const styles = StyleSheet.create({
         container: {
@@ -25,14 +26,18 @@ export default function AddFoodButtons() {
             width: "33%",
         },
     });
-    const addFood = () => {
-        console.log("Add Food Pressed");
+    const submit = () => {
+        console.log("Submit Pressed");
     };
 
+    const cancel = () => {
+        console.log("Cancel Pressed");
+        navigation.navigate("Dashboard");
+    };
     return (
         <View style={styles.container}>
             {/* Submit Button */}
-            <Button mode="contained" style={styles.button} onPress={addFood}>
+            <Button mode="contained" style={styles.button} onPress={submit}>
                 Submit
             </Button>
             {/* Cancel Button */}
@@ -41,7 +46,7 @@ export default function AddFoodButtons() {
                 style={styles.button}
                 buttonColor={theme.colors.error}
                 textColor={theme.colors.onError}
-                onPress={addFood}
+                onPress={cancel}
             >
                 Cancel
             </Button>
