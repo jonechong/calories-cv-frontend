@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { IconButton, useTheme } from "react-native-paper";
+import { useEffect } from "react";
 
 export default function ImageView({ onImageSelected }) {
     const [imageUri, setImageUri] = useState(null);
@@ -22,12 +23,18 @@ export default function ImageView({ onImageSelected }) {
             borderWidth: 1,
             borderRadius: 30,
             borderStyle: "dashed",
-            borderColor: theme,
+            borderColor: theme.colors.primary,
         },
         image: {
-            // width: 200, // Set the width as needed
-            // height: 200, // Set the height as needed
-            marginTop: 20,
+            width: "99.5%",
+            aspectRatio: 1,
+            borderRadius: 30,
+        },
+        touchableArea: {
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
         },
     });
 
@@ -42,12 +49,13 @@ export default function ImageView({ onImageSelected }) {
 
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            // allowsEditing: true, // Optional, depending on your needs
-            // quality: 1, // Optional, 1 is the highest quality
+            allowsEditing: true, // Enable editing
+            aspect: [1, 1], // Force a 1:1 aspect ratio for cropping
+            quality: 1,
         });
 
         if (!result.canceled) {
-            setImageUri(result.uri);
+            setImageUri(result.assets[0].uri);
             if (onImageSelected) {
                 onImageSelected(result.assets[0]);
             }
@@ -55,26 +63,21 @@ export default function ImageView({ onImageSelected }) {
     };
 
     return (
-        <View style={styles.imageContainer}>
-            <TouchableWithoutFeedback
-                style={{ width: "100%", aspectRatio: 1 }}
-                onPress={handleSelectImage}
-            >
-                <View
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <IconButton
-                        icon="image"
-                        size={80}
-                        style={{ backgroundColor: "transparent" }}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
-        </View>
+        <TouchableWithoutFeedback onPress={handleSelectImage}>
+            <View style={styles.imageContainer}>
+                {imageUri ? (
+                    <Image source={{ uri: imageUri }} style={styles.image} />
+                ) : (
+                    <View style={styles.touchableArea}>
+                        <IconButton
+                            icon="camera"
+                            iconColor={theme.colors.primary}
+                            size={80}
+                            style={{ backgroundColor: "transparent" }}
+                        />
+                    </View>
+                )}
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
