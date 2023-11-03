@@ -23,6 +23,13 @@ export default function AddFood({ navigation, FoodData }) {
             alignItems: "center",
             backgroundColor: theme.colors.secondaryContainer,
         },
+        scrollContainer: {
+            flexGrow: 1,
+            flexDirection: "column",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.colors.secondaryContainer,
+        },
         header: {
             flexDirection: "row",
             alignItems: "center",
@@ -95,24 +102,26 @@ export default function AddFood({ navigation, FoodData }) {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjust the value as needed for header height
         >
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View style={styles.container}>
-                    <Appbar.Header>
-                        <View style={styles.header}>
-                            <View style={styles.logoContainer}>
-                                <Image
-                                    source={logoImage}
-                                    style={styles.logo}
-                                    resizeMode="contain"
-                                />
-                            </View>
-                            <Text style={styles.title}>Add Food</Text>
-                            {/*  spacer is used to push the DateSelector to the left */}
-                            <View style={styles.spacer} />
+            <View style={styles.container}>
+                <Appbar.Header>
+                    <View style={styles.header}>
+                        <View style={styles.logoContainer}>
+                            <Image
+                                source={logoImage}
+                                style={styles.logo}
+                                resizeMode="contain"
+                            />
                         </View>
-                    </Appbar.Header>
+                        <Text style={styles.title}>Add Food</Text>
+                        {/*  spacer is used to push the DateSelector to the left */}
+                        <View style={styles.spacer} />
+                    </View>
+                </Appbar.Header>
+                <ScrollView
+                    bounces={false}
+                    contentContainerStyle={styles.scrollContainer}
+                >
                     <TextInput
                         label="Food name"
                         value={foodName}
@@ -156,8 +165,8 @@ export default function AddFood({ navigation, FoodData }) {
                     ))}
                     <ImageView />
                     <AddFoodButtons />
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         </KeyboardAvoidingView>
     );
 }
