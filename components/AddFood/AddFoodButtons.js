@@ -62,7 +62,19 @@ export default function AddFoodButtons({ foodName, foodDate, macroData }) {
     };
 
     const submit = () => {
-        const foodData = { foodName, foodDate, ...macroData };
+        const formattedFoodDate = foodDate.toISOString().split("T")[0];
+        const foodData = {
+            foodName,
+            foodDate: formattedFoodDate,
+            calories: macroData.calories.trim()
+                ? parseInt(macroData.calories)
+                : null,
+            protein: macroData.protein.trim()
+                ? parseInt(macroData.protein)
+                : null,
+            carbs: macroData.carbs.trim() ? parseInt(macroData.carbs) : null,
+            fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
+        };
         console.log(foodData);
         console.log("Submit Pressed");
 
@@ -71,7 +83,8 @@ export default function AddFoodButtons({ foodName, foodDate, macroData }) {
             // Set the state to true to show the dialog
             setDialogVisible(true);
         } else {
-            // Proceed with your submit logic
+            // Save entry into db
+            navigation.navigate("Dashboard");
         }
     };
 
