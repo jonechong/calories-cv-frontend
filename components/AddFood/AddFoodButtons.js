@@ -7,7 +7,7 @@ import {
     useTheme,
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
 
 export default function AddFoodButtons({
@@ -62,6 +62,41 @@ export default function AddFoodButtons({
 
     const db = SQLite.openDatabase("calories-cv.db");
 
+    const insertDb = async ({
+        foodName,
+        foodDate,
+        calories,
+        protein,
+        fats,
+        carbs,
+        imageUri,
+    }) => {
+        return new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+                tx.executeSql(
+                    `INSERT INTO logged_food (food_name, food_date, calories, protein, fats, carbs, image_uri)
+                  VALUES (?, ?, ?, ?, ?, ?, ?);`,
+                    [
+                        foodName,
+                        foodDate,
+                        calories,
+                        protein,
+                        fats,
+                        carbs,
+                        imageUri,
+                    ],
+                    (_, result) => {
+                        resolve(result);
+                    },
+                    (_, error) => {
+                        reject(error);
+                        return false;
+                    }
+                );
+            });
+        });
+    };
+
     const submit = () => {
         const formattedFoodDate = foodDate.toISOString().split("T")[0];
         const foodData = {
@@ -75,6 +110,7 @@ export default function AddFoodButtons({
                 : null,
             carbs: macroData.carbs.trim() ? parseInt(macroData.carbs) : null,
             fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
+            imageUri,
         };
         console.log(foodData);
 
@@ -83,7 +119,14 @@ export default function AddFoodButtons({
             setDialogVisible(true);
         } else {
             // Save entry into db
-            // navigation.navigate("Dashboard");
+            insertDb(foodData)
+                .then((result) => {
+                    console.log("Record inserted successfully", result);
+                })
+                .catch((error) => {
+                    console.error("Failed to insert record:", error);
+                });
+            navigation.navigate("Dashboard");
         }
     };
 
@@ -91,6 +134,20 @@ export default function AddFoodButtons({
         console.log("Cancel Pressed");
         navigation.navigate("Dashboard");
     };
+
+    useEffect(() => {
+        // This function is called when the component unmounts
+        return () => {
+            db.closeAsync()
+                .then(() => {
+                    console.log("Database closed successfully");
+                })
+                .catch((error) => {
+                    console.error("Error closing the database", error);
+                });
+        };
+    }, []);
+
     return (
         <View style={styles.container}>
             {/* Submit Button */}
@@ -107,6 +164,7 @@ export default function AddFoodButtons({
             >
                 Cancel
             </Button>
+            {/* Alert if missing fields below */}
             <Portal>
                 <Dialog
                     visible={isDialogVisible}
