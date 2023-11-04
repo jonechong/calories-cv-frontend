@@ -38,28 +38,6 @@ export default function AddFoodButtons({
 
     const [isDialogVisible, setDialogVisible] = useState(false);
 
-    const validateInput = () => {
-        if (!foodName.trim()) {
-            Alert.alert("Validation Error", "Please enter a food name.");
-            return false;
-        }
-
-        if (!foodDate) {
-            Alert.alert("Validation Error", "Please select a date.");
-            return false;
-        }
-
-        if (!macroData.calories.trim()) {
-            Alert.alert(
-                "Validation Error",
-                "Please enter the number of calories."
-            );
-            return false;
-        }
-
-        return true;
-    };
-
     const db = SQLite.openDatabase("calories-cv.db");
 
     const insertDb = async ({
