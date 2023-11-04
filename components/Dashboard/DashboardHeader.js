@@ -18,12 +18,12 @@ export default function DashboardHeader({ date, onDateChange }) {
             width: "20%", // Set width as per your preference
             height: "100%",
             justifyContent: "center",
+            alignItems: "center",
             paddingHorizontal: 10,
         },
         logo: {
             aspectRatio: 1,
-            height: "100%",
-            width: "100%",
+            height: "80%",
         },
         dateSelector: {
             flex: 1,
