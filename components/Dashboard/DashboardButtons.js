@@ -38,6 +38,7 @@ export default function DashboardButtons() {
                 flexDirection: "column",
                 justifyContent: "space-evenly",
                 alignItems: "flex-end",
+                zIndex: 2,
             },
             button: {
                 marginVertical: "0.5%",
@@ -95,7 +96,6 @@ export default function DashboardButtons() {
             <IconButton
                 icon="menu"
                 mode="contained"
-                style={{}}
                 size={30}
                 containerColor={theme.colors.tertiary}
                 iconColor={theme.colors.onTertiary}
