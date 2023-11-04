@@ -49,6 +49,7 @@ export default function DashboardButtons() {
     const buttonFunctions = {
         addFoodButton: () => {
             console.log("Add Food pressed");
+            setIsExpanded(false);
             navigation.navigate("AddFood");
         },
         detectCaloriesButton: () => {
