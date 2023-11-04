@@ -44,7 +44,7 @@ export default function DateSelector({ date, onDateChange }) {
         <View style={styles.container}>
             <IconButton icon="chevron-left" onPress={decreaseDate} />
             <TouchableOpacity onPress={showDatePicker}>
-                <Subheading>{formattedDate}</Subheading>
+                <Subheading style={styles.date}>{formattedDate}</Subheading>
             </TouchableOpacity>
             <IconButton icon="chevron-right" onPress={increaseDate} />
 
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 10, // You can adjust padding to suit your styling needs
+        paddingVertical: 10,
+    },
+    date: {
+        fontSize: 20,
     },
 });
