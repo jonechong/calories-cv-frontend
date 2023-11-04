@@ -9,34 +9,37 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { IconButton, useTheme } from "react-native-paper";
 import { useEffect } from "react";
+import { useMemo } from "react";
 
 export default function ImageView({ onImageSelected }) {
     const [imageUri, setImageUri] = useState(null);
     const theme = useTheme();
-    const styles = StyleSheet.create({
-        imageContainer: {
-            marginTop: "6%",
-            width: "60%",
-            aspectRatio: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            borderWidth: 1,
-            borderRadius: 30,
-            borderStyle: "dashed",
-            borderColor: theme.colors.primary,
-        },
-        image: {
-            width: "99.5%",
-            aspectRatio: 1,
-            borderRadius: 30,
-        },
-        touchableArea: {
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-        },
-    });
+    const styles = useMemo(() => {
+        return StyleSheet.create({
+            imageContainer: {
+                marginTop: "6%",
+                width: "60%",
+                aspectRatio: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                borderWidth: 1,
+                borderRadius: 30,
+                borderStyle: "dashed",
+                borderColor: theme.colors.primary,
+            },
+            image: {
+                width: "99.5%",
+                aspectRatio: 1,
+                borderRadius: 30,
+            },
+            touchableArea: {
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+            },
+        });
+    }, [theme]);
 
     const handleSelectImage = async () => {
         const permissionResult =

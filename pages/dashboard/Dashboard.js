@@ -5,21 +5,23 @@ import DashboardHeader from "../../components/Dashboard/DashboardHeader";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
 import { useTheme, Surface, Button } from "react-native-paper";
 import FoodView from "../../components/FoodDisplay/FoodView/FoodView";
+import { useMemo } from "react";
 
 export default function Dashboard({ navigation }) {
     const theme = useTheme();
-
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1, // Ensure the container takes the full height
-            position: "relative", // Set position to relative
-        },
-        contentContainer: {
-            flex: 1, // Make the content container take the remaining height
-            marginHorizontal: marginSize,
-            backgroundColor: theme.colors.background,
-        },
-    });
+    const styles = useMemo(() => {
+        return StyleSheet.create({
+            container: {
+                flex: 1, // Ensure the container takes the full height
+                position: "relative", // Set position to relative
+            },
+            contentContainer: {
+                flex: 1, // Make the content container take the remaining height
+                marginHorizontal: marginSize,
+                backgroundColor: theme.colors.background,
+            },
+        });
+    }, [theme]);
 
     //Add margin if screen size is large
     const { width } = useWindowDimensions();

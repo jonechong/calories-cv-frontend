@@ -3,6 +3,7 @@ import { StyleSheet, View, Animated } from "react-native";
 import { Surface, Button, useTheme, IconButton } from "react-native-paper";
 import DetectCaloriesButton from "./buttons/DetectCaloriesButton";
 import { useNavigation } from "@react-navigation/native";
+import { useMemo } from "react";
 
 export default function DashboardButtons() {
     const navigation = useNavigation();
@@ -28,20 +29,22 @@ export default function DashboardButtons() {
         }
     }, [isExpanded, fadeAnim]);
 
-    const styles = StyleSheet.create({
-        container: {
-            position: "absolute", // Position the buttons absolutely
-            bottom: 0, // Position the buttons at the bottom of the screen
-            right: 0, // Align the buttons to the right
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignItems: "flex-end",
-        },
-        button: {
-            marginVertical: "0.5%",
-            width: "100%",
-        },
-    });
+    const styles = useMemo(() => {
+        return StyleSheet.create({
+            container: {
+                position: "absolute", // Position the buttons absolutely
+                bottom: 0, // Position the buttons at the bottom of the screen
+                right: 0, // Align the buttons to the right
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                alignItems: "flex-end",
+            },
+            button: {
+                marginVertical: "0.5%",
+                width: "100%",
+            },
+        });
+    }, [theme]);
 
     const buttonFunctions = {
         addFoodButton: () => {
