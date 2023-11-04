@@ -95,8 +95,8 @@ export default function AddFood({ navigation, FoodData }) {
 
     const handleInputChange = (name, value) => {
         // Check if the input is numeric or empty
-        const isNumericOrEmpty = value === "" || /^\d*\.?\d*$/.test(value);
-        if (isNumericOrEmpty) {
+        const isIntegerOrEmpty = value === "" || /^-?\d+$/.test(value);
+        if (isIntegerOrEmpty) {
             setMacroData({ ...macroData, [name]: value });
         }
     };
@@ -133,7 +133,7 @@ export default function AddFood({ navigation, FoodData }) {
                             />
                         </View>
                         <Text style={styles.title}>Add Food</Text>
-                        {/*  spacer is used to push the DateSelector to the left */}
+                        {/*  spacer is used to push the title to the left */}
                         <View style={styles.spacer} />
                     </View>
                 </Appbar.Header>
