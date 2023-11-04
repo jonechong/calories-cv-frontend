@@ -11,6 +11,7 @@ import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ImageView from "../components/AddFood/ImageView";
 import AddFoodButtons from "../components/AddFood/AddFoodButtons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function AddFood({ navigation, FoodData }) {
     const logoImage = require("../assets/logo_greyscale.png");
@@ -40,12 +41,12 @@ export default function AddFood({ navigation, FoodData }) {
             width: "20%", // Set width as per your preference
             height: "100%",
             justifyContent: "center",
-            alignItems: "center",
             paddingHorizontal: 10,
         },
         logo: {
             aspectRatio: 1,
-            height: "80%",
+            height: "100%",
+            width: "100%",
         },
         input: {
             width: "95%",
@@ -91,11 +92,13 @@ export default function AddFood({ navigation, FoodData }) {
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
-
-    const onDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+    const hideDatePicker = () => {
         setDatePickerVisibility(false);
-        setDate(currentDate);
+    };
+
+    const handleConfirm = (date) => {
+        setDate(date);
+        hideDatePicker();
     };
 
     return (
@@ -143,11 +146,11 @@ export default function AddFood({ navigation, FoodData }) {
                         style={styles.input}
                     />
                     {isDatePickerVisible && (
-                        <DateTimePicker
-                            value={date}
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
                             mode="date"
-                            display="default"
-                            onChange={onDateChange}
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
                         />
                     )}
                     {foodInputs.map((input, index) => (
