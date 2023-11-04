@@ -75,7 +75,7 @@ export default function ImageView({ onImageSelected }) {
                         <IconButton
                             icon="image-plus"
                             iconColor={theme.colors.primary}
-                            size={160}
+                            size={120}
                             style={{
                                 backgroundColor: "transparent",
                                 borderRadius: 0,
