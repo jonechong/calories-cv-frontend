@@ -17,7 +17,7 @@ export default function DashboardHeader({ date, onDateChange }) {
                 width: "100%",
             },
             logoContainer: {
-                width: "20%", // Set width as per your preference
+                width: "20%",
                 height: "100%",
                 justifyContent: "center",
                 alignItems: "center",
