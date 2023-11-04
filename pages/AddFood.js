@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
     StyleSheet,
     View,
@@ -16,49 +16,51 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default function AddFood({ navigation, FoodData }) {
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            flexDirection: "column",
-            alignContent: "center",
-            alignItems: "center",
-            backgroundColor: theme.colors.secondaryContainer,
-        },
-        scrollContainer: {
-            flexGrow: 1,
-            flexDirection: "column",
-            alignContent: "center",
-            alignItems: "center",
-            backgroundColor: theme.colors.secondaryContainer,
-        },
-        header: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-        },
-        logoContainer: {
-            width: "20%", // Set width as per your preference
-            height: "100%",
-            justifyContent: "center",
-            paddingHorizontal: 10,
-        },
-        logo: {
-            aspectRatio: 1,
-            height: "100%",
-            width: "100%",
-        },
-        input: {
-            width: "95%",
-            margin: "1%",
-        },
-        spacer: {
-            width: "20%", // Set width equal to logoContainer width
-        },
-        title: {
-            fontSize: 20,
-        },
-    });
+    const styles = useMemo(() => {
+        return StyleSheet.create({
+            container: {
+                flex: 1,
+                flexDirection: "column",
+                alignContent: "center",
+                alignItems: "center",
+                backgroundColor: theme.colors.secondaryContainer,
+            },
+            scrollContainer: {
+                flexGrow: 1,
+                flexDirection: "column",
+                alignContent: "center",
+                alignItems: "center",
+                backgroundColor: theme.colors.secondaryContainer,
+            },
+            header: {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+            },
+            logoContainer: {
+                width: "20%", // Set width as per your preference
+                height: "100%",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+            },
+            logo: {
+                aspectRatio: 1,
+                height: "100%",
+                width: "100%",
+            },
+            input: {
+                width: "95%",
+                margin: "1%",
+            },
+            spacer: {
+                width: "20%", // Set width equal to logoContainer width
+            },
+            title: {
+                fontSize: 20,
+            },
+        });
+    }, [theme]);
 
     const [foodName, setFoodName] = useState("");
     const [date, setDate] = useState(new Date());
