@@ -91,8 +91,12 @@ export default function FoodView({ date }) {
 
     const renderFoodItem = useCallback(
         (item, index) => {
-            const { food_name, calories, protein, carbs, fats, image_uri } =
-                item;
+            const { food_name, calories, protein, carbs, fats, image_uri } = {
+                ...item,
+                protein: item.protein || "N/A",
+                carbs: item.carbs || "N/A",
+                fats: item.fats || "N/A",
+            };
             const imageSource =
                 imageLoadError[index] || !image_uri
                     ? altImg
