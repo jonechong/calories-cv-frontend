@@ -3,6 +3,7 @@ import { Image, View } from "react-native";
 import { Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as SQLite from "expo-sqlite";
+
 import {
     ActionSheetProvider,
     useActionSheet,
@@ -10,7 +11,7 @@ import {
 
 const db = SQLite.openDatabase("ImageDatabase.db");
 
-const DetectCaloriesButton = ({ styles, theme }) => {
+export default function DetectCaloriesButton({ styles, theme }) {
     const [imageUri, setImageUri] = useState(null);
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -54,7 +55,7 @@ const DetectCaloriesButton = ({ styles, theme }) => {
 
         if (!result.canceled) {
             // setImageUri(result.uri);
-            saveImage(result.assets);
+            saveImage(result.assets[0]);
         }
     };
 
@@ -67,16 +68,28 @@ const DetectCaloriesButton = ({ styles, theme }) => {
 
         if (!result.canceled) {
             // setImageUri(result.uri);
-            saveImage(result.assets);
+            saveImage(result.assets[0]);
         }
     };
 
-    const saveImage = (uri) => {
+    const saveImage = (imageObject) => {
+        const uri = imageObject.uri; // Assuming imageObject is the object containing the URI.
+
         db.transaction((tx) => {
             tx.executeSql(
-                "create table if not exists images (id integer primary key not null, uri text);"
+                "CREATE TABLE IF NOT EXISTS images (id INTEGER PRIMARY KEY NOT NULL, uri TEXT);"
             );
-            tx.executeSql("insert into images (uri) values (?)", [uri]);
+            tx.executeSql(
+                "INSERT INTO images (uri) VALUES (?);",
+                [uri],
+                (_, result) =>
+                    console.log("Image saved to the database with URI:", uri),
+                (_, error) =>
+                    console.error(
+                        "Failed to insert image URI into the database",
+                        error
+                    )
+            );
         });
     };
 
@@ -92,6 +105,4 @@ const DetectCaloriesButton = ({ styles, theme }) => {
             Detect Calories
         </Button>
     );
-};
-
-export default DetectCaloriesButton;
+}
