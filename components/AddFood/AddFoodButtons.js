@@ -1,12 +1,5 @@
+import { StyleSheet, View } from "react-native";
 import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    Image,
-    Dimensions,
-} from "react-native";
-import {
-    Text,
     Button,
     Dialog,
     Paragraph,
@@ -15,8 +8,14 @@ import {
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState } from "react";
+import * as SQLite from "expo-sqlite";
 
-export default function AddFoodButtons({ foodName, foodDate, macroData }) {
+export default function AddFoodButtons({
+    foodName,
+    foodDate,
+    macroData,
+    imageUri,
+}) {
     const navigation = useNavigation();
     const theme = useTheme();
     const styles = useMemo(() => {
@@ -61,6 +60,8 @@ export default function AddFoodButtons({ foodName, foodDate, macroData }) {
         return true;
     };
 
+    const db = SQLite.openDatabase("calories-cv.db");
+
     const submit = () => {
         const formattedFoodDate = foodDate.toISOString().split("T")[0];
         const foodData = {
@@ -76,15 +77,13 @@ export default function AddFoodButtons({ foodName, foodDate, macroData }) {
             fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
         };
         console.log(foodData);
-        console.log("Submit Pressed");
 
-        // Trim the values and check if they are not empty
+        // Data validation
         if (!foodName.trim() || !foodDate || !macroData.calories.trim()) {
-            // Set the state to true to show the dialog
             setDialogVisible(true);
         } else {
             // Save entry into db
-            navigation.navigate("Dashboard");
+            // navigation.navigate("Dashboard");
         }
     };
 

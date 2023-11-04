@@ -11,8 +11,7 @@ import { IconButton, useTheme } from "react-native-paper";
 import { useEffect } from "react";
 import { useMemo } from "react";
 
-export default function ImageView({ onImageSelected }) {
-    const [imageUri, setImageUri] = useState(null);
+export default function ImageView({imageUri, setImageUri}) {
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
@@ -59,9 +58,6 @@ export default function ImageView({ onImageSelected }) {
 
         if (!result.canceled) {
             setImageUri(result.assets[0].uri);
-            if (onImageSelected) {
-                onImageSelected(result.assets[0]);
-            }
         }
     };
 

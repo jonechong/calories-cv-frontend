@@ -69,6 +69,7 @@ export default function AddFood({ navigation, FoodData }) {
         carbs: "",
         fats: "",
     });
+    const [imageUri, setImageUri] = useState(null);
     const macroInputs = [
         {
             name: "calories",
@@ -204,11 +205,12 @@ export default function AddFood({ navigation, FoodData }) {
                             style={styles.input}
                         />
                     ))}
-                    <ImageView />
+                    <ImageView imageUri={imageUri} setImageUri={setImageUri} />
                     <AddFoodButtons
                         foodName={foodName}
                         foodDate={foodDate}
                         macroData={macroData}
+                        imageUri={imageUri}
                     />
                 </ScrollView>
             </View>
