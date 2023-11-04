@@ -38,15 +38,15 @@ export default function AddFood({ navigation, FoodData }) {
                 width: "100%",
             },
             logoContainer: {
-                width: "20%", // Set width as per your preference
+                width: "20%",
                 height: "100%",
                 justifyContent: "center",
+                alignItems: "center",
                 paddingHorizontal: 10,
             },
             logo: {
                 aspectRatio: 1,
-                height: "100%",
-                width: "100%",
+                height: "80%",
             },
             input: {
                 width: "95%",
@@ -62,15 +62,30 @@ export default function AddFood({ navigation, FoodData }) {
     }, [theme]);
 
     const [foodName, setFoodName] = useState("");
-    const [date, setDate] = useState(new Date());
+    const [foodDate, setFoodDate] = useState(new Date());
     const [macroData, setMacroData] = useState({
         calories: "",
         protein: "",
         carbs: "",
         fats: "",
     });
-    const foodInputs = [
-        { name: "calories", label: "Calories (kcal)", keyboardType: "numeric" },
+    const macroInputs = [
+        {
+            name: "calories",
+            label: (
+                <>
+                    Calories (kcal)
+                    <Text
+                        style={{
+                            color: "orange",
+                        }}
+                    >
+                        *
+                    </Text>
+                </>
+            ),
+            keyboardType: "numeric",
+        },
         { name: "protein", label: "Protein (g)", keyboardType: "numeric" },
         { name: "carbs", label: "Carbs (g)", keyboardType: "numeric" },
         { name: "fats", label: "Fats (g)", keyboardType: "numeric" },
@@ -98,7 +113,7 @@ export default function AddFood({ navigation, FoodData }) {
     };
 
     const handleConfirm = (date) => {
-        setDate(date);
+        setFoodDate(date);
         hideDatePicker();
     };
 
@@ -127,15 +142,37 @@ export default function AddFood({ navigation, FoodData }) {
                     contentContainerStyle={styles.scrollContainer}
                 >
                     <TextInput
-                        label="Food name"
+                        label={
+                            <>
+                                Food name
+                                <Text
+                                    style={{
+                                        color: "orange",
+                                    }}
+                                >
+                                    *
+                                </Text>
+                            </>
+                        }
                         value={foodName}
                         onChangeText={(text) => setFoodName(text)}
                         mode="outlined"
                         style={styles.input}
                     />
                     <TextInput
-                        label="Date (DD/MM/YYYY)"
-                        value={formatDate(date)}
+                        label={
+                            <>
+                                Date (DD/MM/YYYY)
+                                <Text
+                                    style={{
+                                        color: "orange",
+                                    }}
+                                >
+                                    *
+                                </Text>
+                            </>
+                        }
+                        value={formatDate(foodDate)}
                         editable={false}
                         right={
                             <TextInput.Icon
@@ -154,7 +191,7 @@ export default function AddFood({ navigation, FoodData }) {
                             onCancel={hideDatePicker}
                         />
                     )}
-                    {foodInputs.map((input, index) => (
+                    {macroInputs.map((input, index) => (
                         <TextInput
                             key={index}
                             label={input.label}
@@ -168,7 +205,11 @@ export default function AddFood({ navigation, FoodData }) {
                         />
                     ))}
                     <ImageView />
-                    <AddFoodButtons />
+                    <AddFoodButtons
+                        foodName={foodName}
+                        foodDate={foodDate}
+                        macroData={macroData}
+                    />
                 </ScrollView>
             </View>
         </KeyboardAvoidingView>
