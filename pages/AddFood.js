@@ -8,7 +8,6 @@ import {
     ScrollView,
 } from "react-native";
 import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import ImageView from "../components/AddFood/ImageView";
 import AddFoodButtons from "../components/AddFood/AddFoodButtons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
