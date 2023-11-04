@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { useMemo } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { List, useTheme, Card, TouchableRipple } from "react-native-paper";
+import * as SQLite from "expo-sqlite";
+import { useEffect } from "react";
 
-export default function FoodView({ foodData }) {
+export default function FoodView({ date }) {
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
             foodList: { width: "100%" },
             foodView: {
-                flexDirection: "column",
-                padding: "4%",
+                // flexDirection: "column",
+                padding: "1%",
                 margin: "4%",
                 backgroundColor: theme.colors.secondaryContainer,
             },
@@ -32,29 +34,61 @@ export default function FoodView({ foodData }) {
         console.log("Edit item:", item);
     };
 
-    //Dummy datas for now
-    const dummyImg = require("../assets/icon.png");
-    const foodData2 = [
-        {
-            name: "Food Name",
-            date: new Date(),
-            calories: 100,
-            protein: 10,
-            carbs: 10,
-            fats: 10,
-        },
-        {
-            name: "Food Name2",
-            date: new Date(),
-            calories: 200,
-            protein: 20,
-            carbs: 20,
-            fats: 20,
-        },
-    ];
+    const fetchDb = async (date) => {
+        return new Promise((resolve, reject) => {
+            const db = SQLite.openDatabase("calories-cv.db");
+            const dateString = date.toISOString().split("T")[0];
+            db.transaction((tx) => {
+                tx.executeSql(
+                    "SELECT * FROM logged_food WHERE food_date = date(?);",
+                    [dateString],
+                    (_, { rows }) => {
+                        resolve(rows._array);
+                    },
+                    (_, error) => {
+                        reject(error);
+                        return false;
+                    }
+                );
+            });
+        });
+    };
+
+    const [foodData, setFoodData] = useState([]);
+    const [altImg, setAltImg] = useState();
+    const [imageLoadError, setImageLoadError] = useState(false);
+
+    useEffect(() => {
+        setAltImg(require("../assets/no_img_avail.png"));
+        fetchDb(date)
+            .then((records) => {
+                setFoodData(records);
+                console.log("Fetched records:", records);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch records:", error);
+            });
+    }, []);
 
     const renderFoodItem = (item, index) => {
-        const { name, calories, protein, carbs, fats } = item;
+        const { food_name, calories, protein, carbs, fats, image_uri } = {
+            ...item,
+            protein: item.protein || "N/A",
+            carbs: item.carbs || "N/A",
+            fats: item.fats || "N/A",
+        };
+
+        const handleImageError = (index) => {
+            setImageLoadError((prevError) => ({
+                ...prevError,
+                [index]: true,
+            }));
+        };
+
+        const imageSource =
+            imageLoadError[index] || !item.image_uri
+                ? altImg
+                : { uri: item.image_uri };
 
         return (
             <TouchableRipple
@@ -66,14 +100,15 @@ export default function FoodView({ foodData }) {
             >
                 <List.Item
                     key={index}
-                    title={`${name}`}
-                    description={`Calories: ${calories} kcal\nProtein: ${protein}g\nCarbs: ${carbs}g\nFats: ${fats}g`}
+                    title={`${food_name}`}
+                    description={`Calories: ${calories} kcal\nProtein: ${protein} g\nCarbs: ${carbs} g\nFats: ${fats} g`}
                     descriptionNumberOfLines={4}
-                    left={(props) => (
+                    left={() => (
                         <View onLayout={onListItemLayout}>
                             {listItemHeight && (
                                 <Image
-                                    source={dummyImg}
+                                    source={imageSource}
+                                    onError={() => handleImageError(index)}
                                     style={{
                                         height: listItemHeight,
                                         aspectRatio: 1,
@@ -91,7 +126,7 @@ export default function FoodView({ foodData }) {
 
     return (
         <Card style={styles.foodView}>
-            <View style={styles.foodList}>{foodData2.map(renderFoodItem)}</View>
+            <View style={styles.foodList}>{foodData.map(renderFoodItem)}</View>
         </Card>
     );
 }
