@@ -44,7 +44,6 @@ export default function FoodView({ date }) {
     };
 
     const editItem = (item) => {
-        console.log("Edit item:", item);
         navigation.navigate("EditFood", {
             date: date.toISOString(),
             foodEntry: item,
@@ -63,7 +62,6 @@ export default function FoodView({ date }) {
             fetchDb(date)
                 .then((records) => {
                     if (isActive) {
-                        console.log(records);
                         setFoodData(records);
                     }
                 })

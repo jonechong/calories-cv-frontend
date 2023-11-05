@@ -77,7 +77,7 @@ export default function AddFood({ route }) {
         // Save entry into db
         insertDb(foodData)
             .then((result) => {
-                console.log("Record inserted successfully", result);
+                console.log("Record inserted successfully");
             })
             .catch((error) => {
                 console.error("Failed to insert record:", error);
