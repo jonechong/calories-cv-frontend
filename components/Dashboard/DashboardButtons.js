@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
 import { Surface, Button, useTheme, IconButton } from "react-native-paper";
 import DetectCaloriesButton from "./buttons/DetectCaloriesButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useMemo } from "react";
 
 export default function DashboardButtons({ date }) {
@@ -10,6 +10,7 @@ export default function DashboardButtons({ date }) {
     const theme = useTheme();
     const [isExpanded, setIsExpanded] = useState(false);
     const [fadeAnim] = useState(new Animated.Value(0)); // Initial value for opacity: 0
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         if (isExpanded) {
@@ -28,6 +29,12 @@ export default function DashboardButtons({ date }) {
             }).start();
         }
     }, [isExpanded, fadeAnim]);
+
+    useEffect(() => {
+        if (!isFocused) {
+            setIsExpanded(false);
+        }
+    }, [isFocused]);
 
     const styles = useMemo(() => {
         return StyleSheet.create({
@@ -50,7 +57,6 @@ export default function DashboardButtons({ date }) {
     const buttonFunctions = {
         addFoodButton: () => {
             console.log("Add Food pressed");
-            setIsExpanded(false);
             navigation.navigate("AddFood", { date: date.toISOString() });
         },
         detectCaloriesButton: () => {
