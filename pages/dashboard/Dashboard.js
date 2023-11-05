@@ -174,7 +174,7 @@ export default function Dashboard() {
 
         const foodData = {
             foodName: "Apple",
-            foodDate: "2023-11-04",
+            foodDate: new Date().toISOString().split("T")[0],
             calories: 95,
             protein: 0,
             fats: 0,
