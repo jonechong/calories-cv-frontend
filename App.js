@@ -12,6 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDb } from "./dbFunctions";
 import DbContext from "./context/DbContext";
+import EditFood from "./pages/food/EditFood";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,10 @@ export default function App() {
                                 component={Dashboard}
                             />
                             <Stack.Screen name="AddFood" component={AddFood} />
+                            <Stack.Screen
+                                name="EditFood"
+                                component={EditFood}
+                            />
                         </Stack.Navigator>
                     </NavigationContainer>
                 </ActionSheetProvider>
