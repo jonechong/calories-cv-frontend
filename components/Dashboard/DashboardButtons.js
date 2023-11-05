@@ -5,7 +5,7 @@ import DetectCaloriesButton from "./buttons/DetectCaloriesButton";
 import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 
-export default function DashboardButtons() {
+export default function DashboardButtons({ date }) {
     const navigation = useNavigation();
     const theme = useTheme();
     const [isExpanded, setIsExpanded] = useState(false);
@@ -51,7 +51,7 @@ export default function DashboardButtons() {
         addFoodButton: () => {
             console.log("Add Food pressed");
             setIsExpanded(false);
-            navigation.navigate("AddFood");
+            navigation.navigate("AddFood", { date: date.toISOString() });
         },
         detectCaloriesButton: () => {
             console.log("Detect Calories pressed");

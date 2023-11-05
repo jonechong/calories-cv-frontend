@@ -12,7 +12,8 @@ import ImageView from "../components/AddFood/ImageView";
 import AddFoodButtons from "../components/AddFood/AddFoodButtons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-export default function AddFood({ navigation, FoodData }) {
+export default function AddFood({ route }) {
+    console.log(route.params.date);
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = useMemo(() => {
@@ -62,7 +63,7 @@ export default function AddFood({ navigation, FoodData }) {
     }, [theme]);
 
     const [foodName, setFoodName] = useState("");
-    const [foodDate, setFoodDate] = useState(new Date());
+    const [foodDate, setFoodDate] = useState(route.params.date);
     const [macroData, setMacroData] = useState({
         calories: "",
         protein: "",
@@ -103,7 +104,10 @@ export default function AddFood({ navigation, FoodData }) {
     };
 
     const formatDate = (date) => {
-        return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        const dateObj = new Date(date);
+        return `${dateObj.getDate()}/${
+            dateObj.getMonth() + 1
+        }/${dateObj.getFullYear()}`;
     };
 
     const showDatePicker = () => {
@@ -177,7 +181,7 @@ export default function AddFood({ navigation, FoodData }) {
                         editable={false}
                         right={
                             <TextInput.Icon
-                                icon="calendar" // This is a placeholder, replace with your icon name
+                                icon="calendar"
                                 onPress={showDatePicker}
                             />
                         }
