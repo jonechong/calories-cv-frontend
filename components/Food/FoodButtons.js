@@ -10,12 +10,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
 
-export default function AddFoodButtons({
-    foodName,
-    foodDate,
-    macroData,
-    imageUri,
-}) {
+export default function AddFoodButtons({ foodProps }) {
+    const { foodName, foodDate, macroData, imageUri } = foodProps;
+    console.log("foodname:" ,foodName, foodDate, macroData, imageUri);
     const navigation = useNavigation();
     const theme = useTheme();
     const styles = useMemo(() => {
