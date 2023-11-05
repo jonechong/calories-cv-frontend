@@ -1,15 +1,9 @@
 import * as SQLite from "expo-sqlite";
 
-export async function insertDb({
-    foodName,
-    foodDate,
-    calories,
-    protein,
-    fats,
-    carbs,
-    imageUri,
-}) {
+export async function insertDb(foodData) {
     const db = SQLite.openDatabase("calories-cv.db");
+    const { foodName, foodDate, calories, protein, fats, carbs, imageUri } =
+        foodData;
     return new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -48,6 +42,51 @@ export async function fetchDb(queryDate) {
         return result;
     } catch (error) {
         console.error("Failed to fetch records:", error);
+        throw error;
+    }
+}
+
+export async function updateFoodLog(logId, foodData) {
+    const db = SQLite.openDatabase("calories-cv.db");
+
+    // Destructure the data for easier access
+    const { food_name, calories, protein, carbs, fats, food_date, image_uri } =
+        foodData;
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+                tx.executeSql(
+                    `UPDATE logged_food 
+                     SET food_name = ?, 
+                         calories = ?, 
+                         protein = ?, 
+                         carbs = ?, 
+                         fats = ?, 
+                         food_date = ?, 
+                         image_uri = ?
+                     WHERE log_id = ?;`,
+                    [
+                        food_name,
+                        calories,
+                        protein,
+                        carbs,
+                        fats,
+                        food_date,
+                        image_uri,
+                        logId,
+                    ],
+                    (_, result) => resolve(result),
+                    (_, error) => {
+                        reject(error);
+                        return false;
+                    }
+                );
+            });
+        });
+        return result;
+    } catch (error) {
+        console.error("Failed to update record:", error);
         throw error;
     }
 }
