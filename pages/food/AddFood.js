@@ -59,7 +59,7 @@ export default function AddFood({ route }) {
 
     const submit = (foodProps) => {
         const { foodName, foodDate, macroData, imageUri } = foodProps;
-        const foodDateObj = new Date(foodProps.foodDate);
+        const foodDateObj = new Date(foodDate);
         const formattedFoodDate = foodDateObj.toISOString().split("T")[0];
         const foodData = {
             foodName,
