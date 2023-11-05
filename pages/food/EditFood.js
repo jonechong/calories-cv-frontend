@@ -13,9 +13,9 @@ import FoodFields from "../../components/food/FoodFields";
 import { updateFoodLog } from "../../dbFunctions";
 import { useNavigation } from "@react-navigation/native";
 import FoodHeader from "../../components/food/FoodHeader";
+import * as FileSystem from "expo-file-system";
 
 export default function EditFood({ route }) {
-    const foodEntry = route.params.foodEntry;
     const navigation = useNavigation();
     const theme = useTheme();
     const styles = useMemo(() => {
@@ -37,6 +37,8 @@ export default function EditFood({ route }) {
         });
     }, [theme]);
 
+    const foodEntry = route.params.foodEntry;
+    const originalImageUri = foodEntry.image_uri;
     const [imageUri, setImageUri] = useState(foodEntry.image_uri);
     const [foodName, setFoodName] = useState(foodEntry.food_name);
     const [foodDate, setFoodDate] = useState(foodEntry.food_date);
@@ -56,6 +58,15 @@ export default function EditFood({ route }) {
         setMacroData,
         imageUri,
         setImageUri,
+    };
+
+    const deleteOldImage = async (imageUri) => {
+        try {
+            await FileSystem.deleteAsync(imageUri, { idempotent: true });
+            console.log(`Deleted old image`);
+        } catch (error) {
+            console.error(`Error deleting old image: ${error.message}`);
+        }
     };
 
     const submit = (foodProps) => {
@@ -80,11 +91,20 @@ export default function EditFood({ route }) {
         updateFoodLog(logId, foodData)
             .then(() => {
                 console.log("The food log has been updated.");
+                if (originalImageUri && originalImageUri !== imageUri) {
+                    // Only delete the old image if the imageUri has actually changed
+                    return deleteOldImage(originalImageUri);
+                }
+            })
+            .then(() => {
+                navigation.navigate("Dashboard");
             })
             .catch((error) => {
-                console.error("Error updating the food log:", error);
+                console.error(
+                    "Error updating the food log or deleting old image:",
+                    error
+                );
             });
-        navigation.navigate("Dashboard");
     };
 
     const cancel = () => {
