@@ -1,6 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { List, useTheme, Card, TouchableRipple } from "react-native-paper";
+import {
+    List,
+    useTheme,
+    Card,
+    TouchableRipple,
+    Title,
+    Paragraph,
+} from "react-native-paper";
 import * as SQLite from "expo-sqlite";
 import { useFocusEffect } from "@react-navigation/core";
 
@@ -89,6 +96,20 @@ export default function FoodView({ date }) {
         }));
     }, []);
 
+    const renderEmptyData = () => (
+        <Card
+            style={{
+                backgroundColor: theme.colors.secondaryContainer,
+                padding: "2%",
+                alignItems: "center",
+            }}
+        >
+            <Title style={{ color: theme.colors.onSecondaryContainer }}>
+                No food logged for this day
+            </Title>
+        </Card>
+    );
+
     const renderFoodItem = useCallback(
         (item, index) => {
             const { food_name, calories, protein, carbs, fats, image_uri } = {
@@ -139,7 +160,11 @@ export default function FoodView({ date }) {
 
     return (
         <Card style={styles.foodView}>
-            <View style={styles.foodList}>{foodData.map(renderFoodItem)}</View>
+            <View style={styles.foodList}>
+                {foodData.length > 0
+                    ? foodData.map(renderFoodItem)
+                    : renderEmptyData()}
+            </View>
         </Card>
     );
 }
