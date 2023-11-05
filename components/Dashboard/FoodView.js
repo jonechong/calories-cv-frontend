@@ -10,8 +10,10 @@ import {
 import { useFocusEffect } from "@react-navigation/core";
 import { fetchDb } from "../../dbFunctions";
 import DbContext from "../../context/DbContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FoodView({ date }) {
+    const navigation = useNavigation();
     const theme = useTheme();
     const styles = StyleSheet.create({
         foodList: { width: "100%" },
@@ -43,6 +45,10 @@ export default function FoodView({ date }) {
 
     const editItem = (item) => {
         console.log("Edit item:", item);
+        navigation.navigate("EditFood", {
+            date: date.toISOString(),
+            foodEntry: item,
+        });
     };
 
     const { isDbInitialized } = useContext(DbContext);
