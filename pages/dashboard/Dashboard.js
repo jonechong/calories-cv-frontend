@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
-import DashboardButtons from "../../components/Dashboard/DashboardButtons";
-import DashboardHeader from "../../components/Dashboard/DashboardHeader";
+import DashboardButtons from "../../components/dashboard/DashboardButtons";
+import DashboardHeader from "../../components/dashboard/DashboardHeader";
 import { useTheme, Card, Button } from "react-native-paper";
 import { useMemo } from "react";
-import FoodView from "../../components/FoodView";
+import FoodView from "../../components/dashboard/FoodView";
 import * as SQLite from "expo-sqlite";
 
 export default function Dashboard() {
