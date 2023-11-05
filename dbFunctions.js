@@ -1,5 +1,45 @@
 import * as SQLite from "expo-sqlite";
 
+export async function createDb() {
+    const db = SQLite.openDatabase("calories-cv.db");
+
+    db.transaction((tx) => {
+        tx.executeSql(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='logged_food';",
+            [],
+            (_, result) => {
+                if (result.rows.length > 0) {
+                    console.log("Table already exists");
+                } else {
+                    // Table does not exist, so create it
+                    tx.executeSql(
+                        `CREATE TABLE IF NOT EXISTS logged_food (
+                            log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            food_name TEXT NOT NULL,
+                            food_date DATE NOT NULL,
+                            calories INTEGER NOT NULL,
+                            protein INTEGER,
+                            fats INTEGER,
+                            carbs INTEGER,
+                            image_uri TEXT
+                        );`,
+                        [],
+                        () => {
+                            console.log("Table created successfully");
+                        },
+                        (_, error) => {
+                            console.log("Failed to create table", error);
+                        }
+                    );
+                }
+            },
+            (_, error) => {
+                console.log("Failed to check if table exists", error);
+            }
+        );
+    });
+}
+
 export async function insertDb(foodData) {
     const db = SQLite.openDatabase("calories-cv.db");
     const { foodName, foodDate, calories, protein, fats, carbs, imageUri } =
@@ -90,42 +130,27 @@ export async function updateFoodLog(logId, foodData) {
     }
 }
 
-export async function createDb() {
+export async function deleteFoodLog(logId) {
     const db = SQLite.openDatabase("calories-cv.db");
 
-    db.transaction((tx) => {
-        tx.executeSql(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='logged_food';",
-            [],
-            (_, result) => {
-                if (result.rows.length > 0) {
-                    console.log("Table already exists");
-                } else {
-                    // Table does not exist, so create it
-                    tx.executeSql(
-                        `CREATE TABLE IF NOT EXISTS logged_food (
-                            log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                            food_name TEXT NOT NULL,
-                            food_date DATE NOT NULL,
-                            calories INTEGER NOT NULL,
-                            protein INTEGER,
-                            fats INTEGER,
-                            carbs INTEGER,
-                            image_uri TEXT
-                        );`,
-                        [],
-                        () => {
-                            console.log("Table created successfully");
-                        },
-                        (_, error) => {
-                            console.log("Failed to create table", error);
-                        }
+    return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "DELETE FROM logged_food WHERE log_id = ?;",
+                [logId],
+                (_, result) => {
+                    console.log(`Deleted log with id ${logId}`);
+                    resolve(result);
+                },
+                (_, error) => {
+                    console.error(
+                        `Failed to delete log with id ${logId}:`,
+                        error
                     );
+                    reject(error);
+                    return false;
                 }
-            },
-            (_, error) => {
-                console.log("Failed to check if table exists", error);
-            }
-        );
+            );
+        });
     });
 }
