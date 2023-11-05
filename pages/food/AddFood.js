@@ -17,7 +17,6 @@ import FoodHeader from "../../components/food/FoodHeader";
 
 export default function AddFood({ route }) {
     const navigation = useNavigation();
-    const logoImage = require("../../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
@@ -34,33 +33,6 @@ export default function AddFood({ route }) {
                 alignContent: "center",
                 alignItems: "center",
                 backgroundColor: theme.colors.secondaryContainer,
-            },
-            header: {
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-            },
-            logoContainer: {
-                width: "20%",
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                paddingHorizontal: 10,
-            },
-            logo: {
-                aspectRatio: 1,
-                height: "80%",
-            },
-            input: {
-                width: "95%",
-                margin: "1%",
-            },
-            spacer: {
-                width: "20%", // Set width equal to logoContainer width
-            },
-            title: {
-                fontSize: 20,
             },
         });
     }, [theme]);
@@ -124,7 +96,7 @@ export default function AddFood({ route }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.container}>
-                <FoodHeader />
+                <FoodHeader title={"Add Food"} />
                 <ScrollView
                     bounces={false}
                     contentContainerStyle={styles.scrollContainer}
