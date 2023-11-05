@@ -13,9 +13,41 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import * as SQLite from "expo-sqlite";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const createDb = () => {
+        // Open a database connection. If the database does not exist, it will be created.
+        const db = SQLite.openDatabase("calories-cv.db");
+
+        db.transaction((tx) => {
+            // Execute the SQL statement to create a table
+            tx.executeSql(
+                `CREATE TABLE IF NOT EXISTS logged_food (
+              log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+              food_name TEXT NOT NULL,
+              food_date DATE NOT NULL,
+              calories INTEGER NOT NULL,
+              protein INTEGER,
+              fats INTEGER,
+              carbs INTEGER,
+              image_uri TEXT
+            );`,
+                [],
+                () => {
+                    console.log("Table created successfully");
+                },
+                (_, error) => {
+                    console.log("Failed to create table", error);
+                }
+            );
+        });
+    };
+
+    createDb();
+
     return (
         <PaperProvider theme={DarkTheme}>
             <ActionSheetProvider>
