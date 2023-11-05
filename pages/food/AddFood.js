@@ -7,12 +7,13 @@ import {
     Platform,
     ScrollView,
 } from "react-native";
-import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
+import { Appbar, Text, useTheme } from "react-native-paper";
 import ImageView from "../../components/food/ImageView";
 import FoodActionButtons from "../../components/food/FoodActionButtons";
 import FoodFields from "../../components/food/FoodFields";
 import { insertDb } from "../../dbFunctions";
 import { useNavigation } from "@react-navigation/native";
+import FoodHeader from "../../components/food/FoodHeader";
 
 export default function AddFood({ route }) {
     const navigation = useNavigation();
@@ -123,20 +124,7 @@ export default function AddFood({ route }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.container}>
-                <Appbar.Header>
-                    <View style={styles.header}>
-                        <View style={styles.logoContainer}>
-                            <Image
-                                source={logoImage}
-                                style={styles.logo}
-                                resizeMode="contain"
-                            />
-                        </View>
-                        <Text style={styles.title}>Add Food</Text>
-                        {/*  spacer is used to push the title to the left */}
-                        <View style={styles.spacer} />
-                    </View>
-                </Appbar.Header>
+                <FoodHeader />
                 <ScrollView
                     bounces={false}
                     contentContainerStyle={styles.scrollContainer}
