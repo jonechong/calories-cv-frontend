@@ -10,9 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
 
-export default function AddFoodButtons({ foodProps }) {
+export default function FoodActionButtons({
+    foodProps,
+    submitFunction,
+    cancelFunction,
+}) {
     const { foodName, foodDate, macroData, imageUri } = foodProps;
-    console.log("foodname:" ,foodName, foodDate, macroData, imageUri);
     const navigation = useNavigation();
     const theme = useTheme();
     const styles = useMemo(() => {
@@ -37,79 +40,6 @@ export default function AddFoodButtons({ foodProps }) {
 
     const db = SQLite.openDatabase("calories-cv.db");
 
-    const insertDb = async ({
-        foodName,
-        foodDate,
-        calories,
-        protein,
-        fats,
-        carbs,
-        imageUri,
-    }) => {
-        return new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    `INSERT INTO logged_food (food_name, food_date, calories, protein, fats, carbs, image_uri)
-                  VALUES (?, ?, ?, ?, ?, ?, ?);`,
-                    [
-                        foodName,
-                        foodDate,
-                        calories,
-                        protein,
-                        fats,
-                        carbs,
-                        imageUri,
-                    ],
-                    (_, result) => {
-                        resolve(result);
-                    },
-                    (_, error) => {
-                        reject(error);
-                        return false;
-                    }
-                );
-            });
-        });
-    };
-
-    const submit = () => {
-        const foodDateObj = new Date(foodDate);
-        const formattedFoodDate = foodDateObj.toISOString().split("T")[0];
-        const foodData = {
-            foodName,
-            foodDate: formattedFoodDate,
-            calories: macroData.calories.trim()
-                ? parseInt(macroData.calories)
-                : null,
-            protein: macroData.protein.trim()
-                ? parseInt(macroData.protein)
-                : null,
-            carbs: macroData.carbs.trim() ? parseInt(macroData.carbs) : null,
-            fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
-            imageUri,
-        };
-
-        // Data validation
-        if (!foodName.trim() || !foodDate || !macroData.calories.trim()) {
-            setDialogVisible(true);
-        } else {
-            // Save entry into db
-            insertDb(foodData)
-                .then((result) => {
-                    console.log("Record inserted successfully", result);
-                })
-                .catch((error) => {
-                    console.error("Failed to insert record:", error);
-                });
-            navigation.navigate("Dashboard");
-        }
-    };
-
-    const cancel = () => {
-        console.log("Cancel Pressed");
-        navigation.navigate("Dashboard");
-    };
-
     useEffect(() => {
         // This function is called when the component unmounts
         return () => {
@@ -126,7 +56,11 @@ export default function AddFoodButtons({ foodProps }) {
     return (
         <View style={styles.container}>
             {/* Submit Button */}
-            <Button mode="contained" style={styles.button} onPress={submit}>
+            <Button
+                mode="contained"
+                style={styles.button}
+                onPress={submitFunction(foodProps)}
+            >
                 Submit
             </Button>
             {/* Cancel Button */}
@@ -135,7 +69,7 @@ export default function AddFoodButtons({ foodProps }) {
                 style={styles.button}
                 buttonColor={theme.colors.secondary}
                 textColor={theme.colors.onSecondary}
-                onPress={cancel}
+                onPress={cancelFunction}
             >
                 Cancel
             </Button>
