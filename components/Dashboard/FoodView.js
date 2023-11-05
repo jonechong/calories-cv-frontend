@@ -10,7 +10,7 @@ import {
 } from "react-native-paper";
 import * as SQLite from "expo-sqlite";
 import { useFocusEffect } from "@react-navigation/core";
-import { fetchDb } from "../dbFunctions";
+import { fetchDb } from "../../dbFunctions";
 
 export default function FoodView({ date }) {
     const theme = useTheme();
@@ -33,7 +33,7 @@ export default function FoodView({ date }) {
             borderRadius: 10,
         },
     });
-    const altImg = require("../assets/no_img_avail.png");
+    const altImg = require("../../assets/no_img_avail.png");
     const [foodData, setFoodData] = useState([]);
     const [imageLoadError, setImageLoadError] = useState({});
     const [listItemHeight, setListItemHeight] = React.useState(null);
