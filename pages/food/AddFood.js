@@ -8,15 +8,15 @@ import {
     ScrollView,
 } from "react-native";
 import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
-import ImageView from "../components/Food/ImageView";
-import FoodActionButtons from "../components/Food/FoodActionButtons";
-import FoodFields from "../components/Food/FoodFields";
-import { insertDb } from "../dbFunctions";
+import ImageView from "../../components/food/ImageView";
+import FoodActionButtons from "../../components/food/FoodActionButtons";
+import FoodFields from "../../components/food/FoodFields";
+import { insertDb } from "../../dbFunctions";
 import { useNavigation } from "@react-navigation/native";
 
 export default function AddFood({ route }) {
     const navigation = useNavigation();
-    const logoImage = require("../assets/logo_greyscale.png");
+    const logoImage = require("../../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
