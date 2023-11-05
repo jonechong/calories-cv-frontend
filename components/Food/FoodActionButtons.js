@@ -6,9 +6,7 @@ import {
     Portal,
     useTheme,
 } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState, useEffect } from "react";
-import * as SQLite from "expo-sqlite";
 
 export default function FoodActionButtons({
     foodProps,
@@ -16,7 +14,6 @@ export default function FoodActionButtons({
     cancelFunction,
 }) {
     const { foodName, foodDate, macroData, imageUri } = foodProps;
-    const navigation = useNavigation();
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
@@ -38,8 +35,6 @@ export default function FoodActionButtons({
 
     const [isDialogVisible, setDialogVisible] = useState(false);
 
-    const db = SQLite.openDatabase("calories-cv.db");
-
     useEffect(() => {
         // This function is called when the component unmounts
         return () => {
@@ -59,7 +54,17 @@ export default function FoodActionButtons({
             <Button
                 mode="contained"
                 style={styles.button}
-                onPress={submitFunction(foodProps)}
+                onPress={() => {
+                    if (
+                        !foodName.trim() ||
+                        !foodDate ||
+                        !macroData.calories.trim()
+                    ) {
+                        setDialogVisible(true);
+                    } else {
+                        submitFunction(foodProps);
+                    }
+                }}
             >
                 Submit
             </Button>

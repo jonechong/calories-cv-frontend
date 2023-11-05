@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import * as SQLite from "expo-sqlite";
 import { useFocusEffect } from "@react-navigation/core";
+import { fetchDb } from "../dbFunctions";
 
 export default function FoodView({ date }) {
     const theme = useTheme();
@@ -32,7 +33,7 @@ export default function FoodView({ date }) {
             borderRadius: 10,
         },
     });
-
+    const altImg = require("../assets/no_img_avail.png");
     const [foodData, setFoodData] = useState([]);
     const [imageLoadError, setImageLoadError] = useState({});
     const [listItemHeight, setListItemHeight] = React.useState(null);
@@ -40,31 +41,6 @@ export default function FoodView({ date }) {
         const { height } = event.nativeEvent.layout;
         setListItemHeight(height);
     };
-    const altImg = require("../assets/no_img_avail.png");
-
-    const fetchDb = useCallback(async (queryDate) => {
-        const db = SQLite.openDatabase("calories-cv.db");
-        const dateString = queryDate.toISOString().split("T")[0];
-        try {
-            const result = await new Promise((resolve, reject) => {
-                db.transaction((tx) => {
-                    tx.executeSql(
-                        "SELECT * FROM logged_food WHERE food_date = date(?);",
-                        [dateString],
-                        (_, { rows }) => resolve(rows._array),
-                        (_, error) => {
-                            reject(error);
-                            return false;
-                        }
-                    );
-                });
-            });
-            return result;
-        } catch (error) {
-            console.error("Failed to fetch records:", error);
-            throw error;
-        }
-    }, []);
 
     const editItem = (item) => {
         console.log("Edit item:", item);
