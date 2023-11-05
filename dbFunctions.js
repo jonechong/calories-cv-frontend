@@ -1,44 +1,51 @@
 import * as SQLite from "expo-sqlite";
 
-export async function createDb() {
-    const db = SQLite.openDatabase("calories-cv.db");
-
-    db.transaction((tx) => {
+export function createDb() {
+    return new Promise((resolve, reject) => {
+      const db = SQLite.openDatabase("calories-cv.db");
+  
+      db.transaction((tx) => {
         tx.executeSql(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='logged_food';",
-            [],
-            (_, result) => {
-                if (result.rows.length > 0) {
-                    console.log("Table already exists");
-                } else {
-                    // Table does not exist, so create it
-                    tx.executeSql(
-                        `CREATE TABLE IF NOT EXISTS logged_food (
-                            log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                            food_name TEXT NOT NULL,
-                            food_date DATE NOT NULL,
-                            calories INTEGER NOT NULL,
-                            protein INTEGER,
-                            fats INTEGER,
-                            carbs INTEGER,
-                            image_uri TEXT
-                        );`,
-                        [],
-                        () => {
-                            console.log("Table created successfully");
-                        },
-                        (_, error) => {
-                            console.log("Failed to create table", error);
-                        }
-                    );
+          "SELECT name FROM sqlite_master WHERE type='table' AND name='logged_food';",
+          [],
+          (_, result) => {
+            if (result.rows.length === 0) {
+              // Table does not exist, create it
+              tx.executeSql(
+                `CREATE TABLE IF NOT EXISTS logged_food (
+                    log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    food_name TEXT NOT NULL,
+                    food_date DATE NOT NULL,
+                    calories INTEGER NOT NULL,
+                    protein INTEGER,
+                    fats INTEGER,
+                    carbs INTEGER,
+                    image_uri TEXT
+                );`,
+                [],
+                () => {
+                  console.log("Table created successfully");
+                  resolve(db); // Resolve the promise with the db instance
+                },
+                (_, error) => {
+                  console.log("Failed to create table", error);
+                  reject(error); // Reject the promise if there's an error
                 }
-            },
-            (_, error) => {
-                console.log("Failed to check if table exists", error);
+              );
+            } else {
+              console.log("Table already exists");
+              resolve(db); // Resolve the promise as the table already exists
             }
+          },
+          (_, error) => {
+            console.log("Failed to check if table exists", error);
+            reject(error); // Reject the promise if there's an error
+          }
         );
+      });
     });
-}
+  }
+  
 
 export async function insertDb(foodData) {
     const db = SQLite.openDatabase("calories-cv.db");
