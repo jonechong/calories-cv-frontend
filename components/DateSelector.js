@@ -2,7 +2,6 @@ import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { IconButton, Subheading } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useMemo } from "react";
 
 export default function DateSelector({ date, onDateChange }) {
     const [currentDate, setCurrentDate] = useState(date);
