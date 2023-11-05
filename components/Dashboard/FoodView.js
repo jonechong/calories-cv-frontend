@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import {
     List,
@@ -9,6 +9,7 @@ import {
 } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/core";
 import { fetchDb } from "../../dbFunctions";
+import DbContext from "../../context/DbContext";
 
 export default function FoodView({ date }) {
     const theme = useTheme();
@@ -44,9 +45,14 @@ export default function FoodView({ date }) {
         console.log("Edit item:", item);
     };
 
+    const { isDbInitialized } = useContext(DbContext);
+
     useFocusEffect(
         useCallback(() => {
             let isActive = true;
+            if (!isDbInitialized) {
+                return;
+            }
 
             fetchDb(date)
                 .then((records) => {
@@ -55,12 +61,14 @@ export default function FoodView({ date }) {
                         setFoodData(records);
                     }
                 })
-                .catch(console.error);
+                .catch((error) => {
+                    console.error(error);
+                });
 
             return () => {
                 isActive = false;
             };
-        }, [date, fetchDb])
+        }, [date, fetchDb, isDbInitialized])
     );
 
     const handleImageError = useCallback((index) => {
