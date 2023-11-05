@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import { Image, View } from "react-native";
 import { Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import * as SQLite from "expo-sqlite";
+import { useNavigation } from "@react-navigation/native";
 
 import {
     ActionSheetProvider,
     useActionSheet,
 } from "@expo/react-native-action-sheet";
 
-const db = SQLite.openDatabase("ImageDatabase.db");
-
 export default function DetectCaloriesButton({ styles, theme }) {
-    const [imageUri, setImageUri] = useState(null);
+    const navigation = useNavigation();
     const { showActionSheetWithOptions } = useActionSheet();
 
     const showImagePicker = async () => {
@@ -49,12 +47,11 @@ export default function DetectCaloriesButton({ styles, theme }) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [1, 1],
             quality: 1,
         });
 
         if (!result.canceled) {
-            // setImageUri(result.uri);
             saveImage(result.assets[0]);
         }
     };
@@ -62,35 +59,42 @@ export default function DetectCaloriesButton({ styles, theme }) {
     const takePhoto = async () => {
         let result = await ImagePicker.launchCameraAsync({
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [1, 1],
             quality: 1,
         });
 
         if (!result.canceled) {
-            // setImageUri(result.uri);
             saveImage(result.assets[0]);
         }
     };
 
-    const saveImage = (imageObject) => {
-        const uri = imageObject.uri; // Assuming imageObject is the object containing the URI.
+    const detectFoodProps = async (imageObject) => {
+        //This is where you call your backend service to detect your food properties
+        //Dummy data since backend is not implemented yet
+        const dummyFoodProps = {
+            foodName: "Dummy food name",
+            calories: 1,
+            protein: 2,
+            fats: 3,
+            carbs: 4,
+            imageUri: imageObject.uri,
+        };
+        return dummyFoodProps;
+    };
 
-        db.transaction((tx) => {
-            tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS images (id INTEGER PRIMARY KEY NOT NULL, uri TEXT);"
-            );
-            tx.executeSql(
-                "INSERT INTO images (uri) VALUES (?);",
-                [uri],
-                (_, result) =>
-                    console.log("Image saved to the database with URI:", uri),
-                (_, error) =>
-                    console.error(
-                        "Failed to insert image URI into the database",
-                        error
-                    )
-            );
-        });
+    const saveImage = (imageObject) => {
+        console.log("Saved image URI:", imageObject.uri);
+        // Dummy backend data
+        detectFoodProps(imageObject)
+            .then((foodProps) => {
+                navigation.navigate("AddFood", {
+                    foodProps: foodProps,
+                    date: new Date().toISOString(),
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (

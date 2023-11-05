@@ -14,6 +14,7 @@ import { insertDb } from "../../dbFunctions";
 import { useNavigation } from "@react-navigation/native";
 import FoodHeader from "../../components/food/FoodHeader";
 import * as FileSystem from "expo-file-system";
+import { useEffect } from "react";
 
 export default function AddFood({ route }) {
     const navigation = useNavigation();
@@ -46,6 +47,7 @@ export default function AddFood({ route }) {
         carbs: "",
         fats: "",
     });
+
     const foodProps = {
         foodName,
         setFoodName,
@@ -107,6 +109,21 @@ export default function AddFood({ route }) {
             });
         navigation.navigate("Dashboard");
     };
+
+    useEffect(() => {
+        if (route.params.foodProps) {
+            const incomingFoodProps = route.params.foodProps;
+            setImageUri(incomingFoodProps.imageUri);
+            setFoodName(incomingFoodProps.foodName);
+            const incomingMacroData = {
+                calories: incomingFoodProps.calories.toString(),
+                protein: incomingFoodProps.protein.toString(),
+                carbs: incomingFoodProps.carbs.toString(),
+                fats: incomingFoodProps.fats.toString(),
+            };
+            setMacroData(incomingMacroData);
+        }
+    }, []);
 
     return (
         <KeyboardAvoidingView
