@@ -50,9 +50,8 @@ export async function updateFoodLog(logId, foodData) {
     const db = SQLite.openDatabase("calories-cv.db");
 
     // Destructure the data for easier access
-    const { food_name, calories, protein, carbs, fats, food_date, image_uri } =
+    const { foodName, calories, protein, carbs, fats, foodDate, imageUri } =
         foodData;
-
     try {
         const result = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -67,13 +66,13 @@ export async function updateFoodLog(logId, foodData) {
                          image_uri = ?
                      WHERE log_id = ?;`,
                     [
-                        food_name,
+                        foodName,
                         calories,
                         protein,
                         carbs,
                         fats,
-                        food_date,
-                        image_uri,
+                        foodDate,
+                        imageUri,
                         logId,
                     ],
                     (_, result) => resolve(result),
