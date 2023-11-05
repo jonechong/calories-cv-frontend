@@ -1,5 +1,5 @@
 import Dashboard from "./pages/dashboard/Dashboard";
-import AddFood from "./pages/AddFood";
+import AddFood from "./pages/food/AddFood";
 import { PaperProvider } from "react-native-paper";
 import { useEffect } from "react";
 import LightTheme from "./LightTheme";
