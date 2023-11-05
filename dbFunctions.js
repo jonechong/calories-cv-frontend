@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+
 export async function insertDb({
     foodName,
     foodDate,
@@ -52,28 +53,40 @@ export async function fetchDb(queryDate) {
 }
 
 export async function createDb() {
-    // Open a database connection. If the database does not exist, it will be created.
     const db = SQLite.openDatabase("calories-cv.db");
 
     db.transaction((tx) => {
-        // Execute the SQL statement to create a table
         tx.executeSql(
-            `CREATE TABLE IF NOT EXISTS logged_food (
-          log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-          food_name TEXT NOT NULL,
-          food_date DATE NOT NULL,
-          calories INTEGER NOT NULL,
-          protein INTEGER,
-          fats INTEGER,
-          carbs INTEGER,
-          image_uri TEXT
-        );`,
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='logged_food';",
             [],
-            () => {
-                console.log("Table created successfully");
+            (_, result) => {
+                if (result.rows.length > 0) {
+                    console.log("Table already exists");
+                } else {
+                    // Table does not exist, so create it
+                    tx.executeSql(
+                        `CREATE TABLE IF NOT EXISTS logged_food (
+                            log_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            food_name TEXT NOT NULL,
+                            food_date DATE NOT NULL,
+                            calories INTEGER NOT NULL,
+                            protein INTEGER,
+                            fats INTEGER,
+                            carbs INTEGER,
+                            image_uri TEXT
+                        );`,
+                        [],
+                        () => {
+                            console.log("Table created successfully");
+                        },
+                        (_, error) => {
+                            console.log("Failed to create table", error);
+                        }
+                    );
+                }
             },
             (_, error) => {
-                console.log("Failed to create table", error);
+                console.log("Failed to check if table exists", error);
             }
         );
     });
