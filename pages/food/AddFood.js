@@ -2,18 +2,18 @@ import { useMemo, useState } from "react";
 import {
     StyleSheet,
     View,
-    Image,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
 } from "react-native";
-import { Appbar, Text, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import ImageView from "../../components/food/ImageView";
 import FoodActionButtons from "../../components/food/FoodActionButtons";
 import FoodFields from "../../components/food/FoodFields";
 import { insertDb } from "../../dbFunctions";
 import { useNavigation } from "@react-navigation/native";
 import FoodHeader from "../../components/food/FoodHeader";
+import * as FileSystem from "expo-file-system";
 
 export default function AddFood({ route }) {
     const navigation = useNavigation();
@@ -57,6 +57,19 @@ export default function AddFood({ route }) {
         setImageUri,
     };
 
+    const deleteOldImage = async (imageUri) => {
+        if (!imageUri) {
+            console.log("No image");
+            return;
+        }
+        try {
+            await FileSystem.deleteAsync(imageUri, { idempotent: true });
+            console.log(`Deleted old image`);
+        } catch (error) {
+            console.error(`Error deleting old image: ${error.message}`);
+        }
+    };
+
     const submit = (foodProps) => {
         const { foodName, foodDate, macroData, imageUri } = foodProps;
         const foodDateObj = new Date(foodDate);
@@ -87,6 +100,11 @@ export default function AddFood({ route }) {
 
     const cancel = () => {
         console.log("Cancel Pressed");
+        deleteOldImage(imageUri)
+            .then()
+            .catch((error) => {
+                console.error(error);
+            });
         navigation.navigate("Dashboard");
     };
 
