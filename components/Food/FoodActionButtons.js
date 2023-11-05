@@ -35,19 +35,6 @@ export default function FoodActionButtons({
 
     const [isDialogVisible, setDialogVisible] = useState(false);
 
-    useEffect(() => {
-        // This function is called when the component unmounts
-        return () => {
-            db.closeAsync()
-                .then(() => {
-                    console.log("Database closed successfully");
-                })
-                .catch((error) => {
-                    console.error("Error closing the database", error);
-                });
-        };
-    }, []);
-
     return (
         <View style={styles.container}>
             {/* Submit Button */}
