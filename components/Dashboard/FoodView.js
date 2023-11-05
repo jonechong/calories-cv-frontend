@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useContext } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, ScrollView } from "react-native";
 import {
     List,
     useTheme,
@@ -229,11 +229,11 @@ export default function FoodView({ date }) {
 
     return (
         <Card style={styles.foodView}>
-            <View style={styles.foodList}>
+            <ScrollView style={styles.foodList}>
                 {foodData.length > 0
                     ? foodData.map(renderFoodItem)
                     : renderEmptyData()}
-            </View>
+            </ScrollView>
 
             {renderConfirmationDialog()}
         </Card>
