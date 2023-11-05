@@ -6,9 +6,7 @@ import {
     Card,
     TouchableRipple,
     Title,
-    Paragraph,
 } from "react-native-paper";
-import * as SQLite from "expo-sqlite";
 import { useFocusEffect } from "@react-navigation/core";
 import { fetchDb } from "../../dbFunctions";
 
