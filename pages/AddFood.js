@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import { Appbar, Text, TextInput, useTheme } from "react-native-paper";
 import ImageView from "../components/Food/ImageView";
-import AddFoodButtons from "../components/Food/FoodButtons";
+import FoodActionButtons from "../components/Food/FoodActionButtons";
 import FoodFields from "../components/Food/FoodFields";
+import { insertDb } from "../dbFunctions";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AddFood({ route }) {
+    const navigation = useNavigation();
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = useMemo(() => {
@@ -61,6 +64,7 @@ export default function AddFood({ route }) {
         });
     }, [theme]);
 
+    const [imageUri, setImageUri] = useState(null);
     const [foodName, setFoodName] = useState("");
     const [foodDate, setFoodDate] = useState(route.params.date);
     const [macroData, setMacroData] = useState({
@@ -69,8 +73,6 @@ export default function AddFood({ route }) {
         carbs: "",
         fats: "",
     });
-    const [imageUri, setImageUri] = useState(null);
-
     const foodProps = {
         foodName,
         setFoodName,
@@ -80,6 +82,39 @@ export default function AddFood({ route }) {
         setMacroData,
         imageUri,
         setImageUri,
+    };
+
+    const submit = (foodProps) => {
+        const { foodName, foodDate, macroData, imageUri } = foodProps;
+        const foodDateObj = new Date(foodProps.foodDate);
+        const formattedFoodDate = foodDateObj.toISOString().split("T")[0];
+        const foodData = {
+            foodName,
+            foodDate: formattedFoodDate,
+            calories: macroData.calories.trim()
+                ? parseInt(macroData.calories)
+                : null,
+            protein: macroData.protein.trim()
+                ? parseInt(macroData.protein)
+                : null,
+            carbs: macroData.carbs.trim() ? parseInt(macroData.carbs) : null,
+            fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
+            imageUri,
+        };
+        // Save entry into db
+        insertDb(foodData)
+            .then((result) => {
+                console.log("Record inserted successfully", result);
+            })
+            .catch((error) => {
+                console.error("Failed to insert record:", error);
+            });
+        navigation.navigate("Dashboard");
+    };
+
+    const cancel = () => {
+        console.log("Cancel Pressed");
+        navigation.navigate("Dashboard");
     };
 
     return (
@@ -108,8 +143,11 @@ export default function AddFood({ route }) {
                 >
                     <FoodFields foodProps={foodProps} />
                     <ImageView imageUri={imageUri} setImageUri={setImageUri} />
-
-                    <AddFoodButtons foodProps={foodProps} />
+                    <FoodActionButtons
+                        foodProps={foodProps}
+                        submitFunction={submit}
+                        cancelFunction={cancel}
+                    />
                 </ScrollView>
             </View>
         </KeyboardAvoidingView>
