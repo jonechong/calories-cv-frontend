@@ -91,7 +91,6 @@ export default function AddFoodButtons({
             fats: macroData.fats.trim() ? parseInt(macroData.fats) : null,
             imageUri,
         };
-        console.log(foodData);
 
         // Data validation
         if (!foodName.trim() || !foodDate || !macroData.calories.trim()) {

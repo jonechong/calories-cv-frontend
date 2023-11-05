@@ -13,7 +13,6 @@ import AddFoodButtons from "../components/AddFood/AddFoodButtons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function AddFood({ route }) {
-    console.log(route.params.date);
     const logoImage = require("../assets/logo_greyscale.png");
     const theme = useTheme();
     const styles = useMemo(() => {
