@@ -1,24 +1,42 @@
-import { useState } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { IconButton, Subheading } from "react-native-paper";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useMemo, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Modal } from "react-native";
+import { IconButton, Subheading, useTheme } from "react-native-paper";
+import CalendarPicker from "./CalendarPicker";
 
 export default function DateSelector({ date, onDateChange }) {
+    const theme = useTheme();
+    const styles = useMemo(() => {
+        return StyleSheet.create({
+            container: {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 10,
+            },
+            date: {
+                fontSize: 20,
+            },
+            modalOverlay: {
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+            },
+            calendarContainer: {
+                width: "80%",
+                overflow: "hidden",
+                borderRadius: 20,
+            },
+        });
+    }, []);
+
     const [currentDate, setCurrentDate] = useState(date);
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isCalendarVisible, setCalendarVisibility] = useState(false);
 
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date) => {
-        hideDatePicker();
-        setCurrentDate(date);
-        onDateChange(date);
+    const handleDateChange = (newDate) => {
+        setCurrentDate(newDate);
+        onDateChange(newDate);
+        setCalendarVisibility(false);
     };
 
     const decreaseDate = () => {
@@ -42,32 +60,40 @@ export default function DateSelector({ date, onDateChange }) {
     return (
         <View style={styles.container}>
             <IconButton icon="chevron-left" onPress={decreaseDate} />
-            <TouchableOpacity onPress={showDatePicker}>
+            <TouchableOpacity onPress={() => setCalendarVisibility(true)}>
                 <Subheading style={styles.date}>{formattedDate}</Subheading>
             </TouchableOpacity>
             <IconButton icon="chevron-right" onPress={increaseDate} />
 
-            {isDatePickerVisible && (
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                    date={currentDate}
-                />
-            )}
+            <Modal
+                visible={isCalendarVisible}
+                onRequestClose={() => setCalendarVisibility(false)}
+                // animationType="slide"
+                transparent={true}
+            >
+                <View style={styles.modalOverlay}>
+                    <View
+                        style={{
+                            alignItems: "flex-end",
+                            width: "80%",
+                        }}
+                    >
+                        <IconButton
+                            icon="close"
+                            onPress={() => setCalendarVisibility(false)}
+                            iconColor={theme.colors.onBackground}
+                            backgroundColor={theme.colors.background}
+                        />
+                    </View>
+                    <View style={styles.calendarContainer}>
+                        <CalendarPicker
+                            currentDate={currentDate}
+                            onDateChange={handleDateChange}
+                            themeColors={theme.colors}
+                        />
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingVertical: 10,
-    },
-    date: {
-        fontSize: 20,
-    },
-});
