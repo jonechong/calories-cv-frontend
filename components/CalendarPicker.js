@@ -54,7 +54,7 @@ export default function CalendarPicker({
         <Modal
             visible={isCalendarVisible}
             onRequestClose={() => setCalendarVisibility(false)}
-            // animationType="slide"
+            animationType="fade"
             transparent={true}
         >
             <View style={styles.modalOverlay}>
