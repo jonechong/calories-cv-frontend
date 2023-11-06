@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Calendar } from "react-native-calendars";
-import { StyleSheet, View, TouchableOpacity, Modal } from "react-native";
+import { StyleSheet, View, Modal } from "react-native";
 import { IconButton } from "react-native-paper";
 
 export default function CalendarPicker({
@@ -12,15 +12,6 @@ export default function CalendarPicker({
 }) {
     const styles = useMemo(() => {
         return StyleSheet.create({
-            container: {
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingVertical: 10,
-            },
-            date: {
-                fontSize: 20,
-            },
             modalOverlay: {
                 flex: 1,
                 justifyContent: "center",
