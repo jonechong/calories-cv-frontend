@@ -11,12 +11,12 @@ import { IconButton, useTheme } from "react-native-paper";
 import { useEffect } from "react";
 import { useMemo } from "react";
 
-export default function ImageView({imageUri, setImageUri}) {
+export default function ImageView({ imageUri, setImageUri }) {
     const theme = useTheme();
     const styles = useMemo(() => {
         return StyleSheet.create({
             imageContainer: {
-                marginTop: "6%",
+                marginVertical: "4%",
                 width: "60%",
                 aspectRatio: 1,
                 justifyContent: "center",
