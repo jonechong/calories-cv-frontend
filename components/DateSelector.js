@@ -65,35 +65,13 @@ export default function DateSelector({ date, onDateChange }) {
             </TouchableOpacity>
             <IconButton icon="chevron-right" onPress={increaseDate} />
 
-            <Modal
-                visible={isCalendarVisible}
-                onRequestClose={() => setCalendarVisibility(false)}
-                // animationType="slide"
-                transparent={true}
-            >
-                <View style={styles.modalOverlay}>
-                    <View
-                        style={{
-                            alignItems: "flex-end",
-                            width: "80%",
-                        }}
-                    >
-                        <IconButton
-                            icon="close"
-                            onPress={() => setCalendarVisibility(false)}
-                            iconColor={theme.colors.onBackground}
-                            backgroundColor={theme.colors.background}
-                        />
-                    </View>
-                    <View style={styles.calendarContainer}>
-                        <CalendarPicker
-                            currentDate={currentDate}
-                            onDateChange={handleDateChange}
-                            themeColors={theme.colors}
-                        />
-                    </View>
-                </View>
-            </Modal>
+            <CalendarPicker
+                currentDate={currentDate}
+                onDateChange={handleDateChange}
+                themeColors={theme.colors}
+                isCalendarVisible={isCalendarVisible}
+                setCalendarVisibility={setCalendarVisibility}
+            />
         </View>
     );
 }
