@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
 
 export default function FoodView({ date }) {
+    const { isDbInitialized } = useContext(DbContext);
     const navigation = useNavigation();
     const theme = useTheme();
     const styles = StyleSheet.create({
@@ -131,8 +132,6 @@ export default function FoodView({ date }) {
             foodEntry: item,
         });
     };
-
-    const { isDbInitialized } = useContext(DbContext);
 
     useFocusEffect(
         useCallback(() => {
