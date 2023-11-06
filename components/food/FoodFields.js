@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text, TextInput, useTheme } from "react-native-paper";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import CalendarPicker from "../CalendarPicker";
 
 export default function FoodFields({ foodProps }) {
     const theme = useTheme();
+    const [isCalendarVisible, setCalendarVisibility] = useState(false);
     const styles = useMemo(() => {
         return StyleSheet.create({
             input: {
@@ -36,8 +37,6 @@ export default function FoodFields({ foodProps }) {
         { name: "fats", label: "Fats (g)", keyboardType: "numeric" },
     ];
 
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
     const handleInputChange = (name, value) => {
         // Check if the input is numeric or empty
         const isIntegerOrEmpty = value === "" || /^-?\d+$/.test(value);
@@ -46,23 +45,19 @@ export default function FoodFields({ foodProps }) {
         }
     };
 
+    const handleDateChange = (newDate) => {
+        foodProps.setFoodDate(newDate);
+        setCalendarVisibility(false);
+    };
+
     const formatDate = (date) => {
         const dateObj = new Date(date);
         return `${dateObj.getDate()}/${
             dateObj.getMonth() + 1
         }/${dateObj.getFullYear()}`;
     };
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date) => {
-        foodProps.setFoodDate(date);
-        hideDatePicker();
+    const showCalendar = () => {
+        setCalendarVisibility(true);
     };
 
     return (
@@ -101,19 +96,20 @@ export default function FoodFields({ foodProps }) {
                 value={formatDate(foodProps.foodDate)}
                 editable={false}
                 right={
-                    <TextInput.Icon icon="calendar" onPress={showDatePicker} />
+                    <TextInput.Icon icon="calendar" onPress={showCalendar} />
                 }
                 mode="outlined"
                 style={styles.input}
             />
-            {isDatePickerVisible && (
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                />
-            )}
+
+            <CalendarPicker
+                currentDate={new Date(foodProps.foodDate)}
+                onDateChange={handleDateChange}
+                themeColors={theme.colors}
+                isCalendarVisible={isCalendarVisible}
+                setCalendarVisibility={setCalendarVisibility}
+            />
+
             {macroInputs.map((input, index) => (
                 <TextInput
                     key={index}
