@@ -79,6 +79,7 @@ export default function FoodFields({ foodProps }) {
                 onChangeText={(text) => foodProps.setFoodName(text)}
                 mode="outlined"
                 style={styles.input}
+                autoCorrect={false} // Disable auto-correct
             />
             <TextInput
                 label={
