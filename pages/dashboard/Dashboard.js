@@ -33,7 +33,9 @@ export default function Dashboard() {
     const { width } = useWindowDimensions();
     const breakpoint = 768;
     const marginSize = width > breakpoint ? width * 0.2 : 0; //0.2 corresponds to 20%
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(
+        new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+    );
 
     const handleDateChange = (newDate) => {
         setSelectedDate(newDate);

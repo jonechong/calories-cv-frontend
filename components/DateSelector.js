@@ -30,7 +30,10 @@ export default function DateSelector({ date, onDateChange }) {
         });
     }, []);
 
-    const [currentDate, setCurrentDate] = useState(date);
+    const [currentDate, setCurrentDate] = useState(
+        new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    );
+
     const [isCalendarVisible, setCalendarVisibility] = useState(false);
 
     const handleDateChange = (newDate) => {

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Calendar } from "react-native-calendars";
 import { StyleSheet, View, Modal } from "react-native";
 import { IconButton } from "react-native-paper";
@@ -44,11 +44,18 @@ export default function CalendarPicker({
     };
 
     const formatDate = (date) => {
-        const d = new Date(date);
-        const month = `${d.getMonth() + 1}`.padStart(2, "0");
-        const day = `${d.getDate()}`.padStart(2, "0");
-        return `${d.getFullYear()}-${month}-${day}`;
+        const offset = date.getTimezoneOffset() * 60000; // Offset in milliseconds
+        const localDate = new Date(date - offset); // Adjust for local timezone
+        const month = `${localDate.getMonth() + 1}`.padStart(2, "0");
+        const day = `${localDate.getDate()}`.padStart(2, "0");
+        return `${localDate.getFullYear()}-${month}-${day}`;
     };
+
+    useEffect(() => {
+        const offset = currentDate.getTimezoneOffset() * 60000;
+        const localCurrentDate = new Date(currentDate - offset);
+        console.log(localCurrentDate.toISOString());
+    }, [currentDate]);
 
     return (
         <Modal
