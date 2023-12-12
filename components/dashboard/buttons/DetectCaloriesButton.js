@@ -149,7 +149,10 @@ export default function DetectCaloriesButton({ styles, theme }) {
 
             navigation.navigate("AddFood", {
                 foodProps: modifiedFoodProps,
-                date: new Date().toISOString(),
+                date: new Date(
+                    new Date().getTime() -
+                        new Date().getTimezoneOffset() * 60000
+                ).toISOString(),
             });
         } catch (error) {
             console.error("Error in saveImage:", error);
