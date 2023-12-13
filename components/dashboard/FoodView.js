@@ -226,15 +226,29 @@ export default function FoodView({ date }) {
         [imageLoadError, altImg, editItem, theme.colors]
     );
 
-    return (
+    return foodData.length > 0 ? (
         <Card style={styles.foodView}>
             <ScrollView style={styles.foodList}>
-                {foodData.length > 0
-                    ? foodData.map(renderFoodItem)
-                    : renderEmptyData()}
+                {foodData.map(renderFoodItem)}
             </ScrollView>
-
             {renderConfirmationDialog()}
         </Card>
+    ) : (
+        <View
+            style={{
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
+            <Title
+                style={{
+                    color: theme.colors.onSecondaryContainer,
+                    textAlign: "center",
+                }}
+            >
+                No food logged for this day
+            </Title>
+        </View>
     );
 }
