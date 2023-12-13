@@ -137,10 +137,10 @@ export default function DetectCaloriesButton({ styles, theme }) {
 
             const modifiedFoodProps = {
                 ...foodProps,
-                calories: 1,
-                protein: 2,
-                fats: 3,
-                carbs: 4,
+                calories: foodProps.nutrition.calories,
+                protein: foodProps.nutrition.protein,
+                fats: foodProps.nutrition.fats,
+                carbs: foodProps.nutrition.carbs,
                 foodName: formattedFoodName,
                 imageUri: foodProps.imageUri,
             };
