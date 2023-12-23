@@ -5,7 +5,7 @@ import DateSelector from "../DateSelector";
 import { useMemo } from "react";
 
 export default function DashboardHeader({ date, onDateChange }) {
-    const logoImage = require("../../assets/logo_greyscale.png");
+    const logoImage = require("../../assets/logo/logo_no_title.png");
     const theme = useTheme();
 
     const styles = useMemo(() => {
